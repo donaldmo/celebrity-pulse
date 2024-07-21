@@ -1,11 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, collection, getDocs, updateDoc, doc, addDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyArFl3nquQT3u0zNjFeEbGixiA6xct19iY",
     authDomain: "artist-awards.firebaseapp.com",
@@ -16,6 +12,19 @@ const firebaseConfig = {
     measurementId: "G-6QZ7VSL0GK"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+export {
+    db,
+    collection,
+    getDocs,
+    updateDoc,
+    doc,
+    addDoc,
+    storage,
+    ref,
+    uploadBytes,
+    getDownloadURL
+};
