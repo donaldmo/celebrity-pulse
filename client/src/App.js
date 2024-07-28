@@ -2,26 +2,20 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Artists from "./Artists";
 import Admin from "./Admin";
+import Home from "./pages/Home";
+import IndexTwo from "./pages/IndexTwo";
 
 const App = () => {
   return (
     <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Artists</Link>
-            </li>
-            <li>
-              <Link to="/admin">Admin</Link>
-            </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Artists />} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/index-two" element={<IndexTwo />} />
+
+
+        <Route path="/artists" element={<Artists />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
     </Router>
   );
 };

@@ -1,5 +1,5 @@
-import React from "react";
-import AddArtist from "./AddArtist";
+import React from "react"
+import AddArtist from "./AddArtist"
 
 const Admin = () => {
     return (
@@ -7,7 +7,7 @@ const Admin = () => {
             <h1>Admin Page</h1>
             <AddArtist />
         </div>
-    );
-};
+    )
+}
 
-export default Admin;
+export default Admin
