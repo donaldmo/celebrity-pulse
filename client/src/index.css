@@ -1114,7 +1114,7 @@ ABOUT TWO
 #about-two .about-img {
   height: 100vh;
   width: 50%;
-  /* background: url(../images/about-img.jpg); */
+  background: url("../public/images/about-img.jpg");
   /*ABOUT-TWO BACKGROUND IMAGE*/
   background-size: cover;
   background-position: center;
