@@ -85,8 +85,7 @@ const Songs = () => {
 
                                                 <div class="download-song mouse">
                                                     <a href="music/The Weeknd - Blinding Lights (Lyrics).mp3"
-                                                        download="Blinding Lights - Arlo Brown">{artist.votes}
-                                                        votes
+                                                        download="Blinding Lights - Arlo Brown">{artist.votes} votes
                                                     </a>
                                                 </div>
                                             </div>
