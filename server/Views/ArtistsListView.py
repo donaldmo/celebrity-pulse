@@ -33,8 +33,7 @@ class ArtistsListView:
             cols[3].write(f"Votes: {artist.votes}")
 
             if cols[4].button("Edit", key=f"update_{idx}"):
-                st.query_params.update(
-                    {"page": "Edit Artist", "id": artist.id})
+                st.query_params.from_dict({"page": "Edit Artist", "id": artist.id})
                 st.session_state.page = "Edit Artist"
                 st.rerun()
 
@@ -43,11 +42,8 @@ class ArtistsListView:
 
     def delete_artist(self, idx: int, artist_id: str):
         if self.delete_artists_func(artist_id):
-            ArtistsListView(
-                self.get_artists_func,
-                self.delete_artists_func,
-                message=f"Artist {idx + 1} deleted",
-                message_type="success"
-            )
+            st.query_params.from_dict({"page": "Success Page", "message": "Artist successfully deleted"})
+            st.session_state.page = "Success Page"
+            st.rerun()
         else:
             st.error("Failed to delete the artist")
