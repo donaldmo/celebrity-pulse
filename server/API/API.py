@@ -44,3 +44,39 @@ class API:
         image_blob.make_public()
         image_url = image_blob.public_url
         return image_url
+
+    def delete_artist(self, artist_id: str) -> bool:
+        try:
+            artist_ref = self.db.collection("artists").document(artist_id)
+            artist_ref.delete()
+            return True
+
+        except Exception as e:
+            print(f"An error occurred while deleting the artist: {e}")
+            return False
+
+    def get_single_artist(self, artist_id: str):
+        try:
+            artist_ref = self.db.collection("artists").document(artist_id)
+            artist = artist_ref.get()
+            if artist.exists:
+                return Artist.from_dict(artist.to_dict(), artist.id)
+            else:
+                return None
+        except Exception as e:
+            print(f"An error occurred while retrieving the artist: {e}")
+            return None
+
+    def update_artist(self, artist) -> bool:
+        try:
+            artist_ref = self.db.collection("artists").document(artist.id)
+            if not artist_ref.get().exists:
+                return False
+
+            artist_data = artist.to_dict()
+            artist_ref.update(artist_data)
+            return True
+
+        except Exception as e:
+            print(f"An error occurred while updating the artist: {e}")
+            return False

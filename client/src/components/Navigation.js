@@ -38,7 +38,7 @@ const Navigation = () => {
     return (
         <div class="navigation">
             <div class="logo hover ">
-                <a href="" class="text">ARLO BROWN</a>
+                <a href="" class="text">CLEBRITY PULSE</a>
             </div>
 
             <div class="menu-bar hover ">
