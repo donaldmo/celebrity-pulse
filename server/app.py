@@ -8,8 +8,8 @@ if 'page' not in st.session_state:
 
 
 def main_page():
-    st.title('Main Page')
-    st.write('Welcome to the Main Page!')
+    st.title('CELEBRITY PULSE')
+    st.write('Welcome, manage celebrities!')
     ArtistsListView(get_artists, delete_artist)
 
 
@@ -50,7 +50,6 @@ def main():
             st.session_state.page = page_name
             st.query_params.update({"page": page_name})
 
-    # Display the selected page
     page_functions[st.session_state.page]()
 
 
