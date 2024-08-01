@@ -79,7 +79,7 @@ Open the `requirements.txt` file and install each requirement one by one. Here i
 Once all the dependencies are installed, you can run the application using Streamlit:
 
 ```sh
-streamlit run main.py
+streamlit run app.py
 ```
 
 ## Acknowledgments
