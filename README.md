@@ -1,70 +1,90 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Celebrity Pulse
 
-In the project directory, you can run:
+Celebrity Pulse is a web application that allows users to stay updated with the latest news and trends about their favorite celebrities.
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+client/
+server/
+  ├── API/
+  ├── Controller/
+  ├── Models/
+  ├── Views/
+  ├── app.py
+  ├── requirements.txt
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Cloning the Repository
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+First, clone the repository from GitHub:
 
-### `npm run build`
+```sh
+git clone https://github.com/donaldmo/celebrity-pulse.git
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Setting Up the Server
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Navigate into the `server` directory:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```sh
+cd server
+```
 
-### `npm run eject`
+### Creating a Virtual Environment
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Create a virtual environment to manage your dependencies:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```sh
+python -m venv .venv
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Activate the virtual environment:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- On Windows:
+  ```sh
+  .venv\Scripts\activate
+  ```
+- On macOS and Linux:
+  ```sh
+  source .venv/bin/activate
+  ```
 
-## Learn More
+### Installing Requirements
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Open the `requirements.txt` file and install each requirement one by one. Here is an example:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Open `requirements.txt` on vscode:
+    ```sh
+    code .
+    ```
+   
+2. Install each requirement:
+    ```sh
+    pip install streamlit
+    pip install firebase_admin
+    pip install python_dotenv
+    pip install streamlit-shadcn-ui
+    pip install pyrebase4
+    pip install google-auth
+    pip install httpx-oauth
+    ```
 
-### Code Splitting
+### Running the Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Once all the dependencies are installed, you can run the application using Streamlit:
 
-### Analyzing the Bundle Size
+```sh
+streamlit run main.py
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Acknowledgments
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Streamlit for providing an easy way to create data-driven web applications.
+- Firebase for backend services.
+- All other libraries and tools used in this project.
+---
