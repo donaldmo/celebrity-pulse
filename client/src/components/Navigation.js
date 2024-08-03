@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { gsap } from "gsap"
 
-const Navigation = () => {
+const Navigation = (props) => {
     useEffect(() => {
         const menuBar = document.querySelector('.menu-bar');
         const navigationClose = document.querySelector('.navigation-close');
@@ -34,11 +34,13 @@ const Navigation = () => {
             navigationClose.removeEventListener('click', closeNavigation);
         };
     }, []);
-    
+
+    const { logoName = "CLEBRITY PULSE" } = props
+
     return (
         <div class="navigation">
             <div class="logo hover ">
-                <a href="" class="text">CLEBRITY PULSE</a>
+                <a href="/" class="text">{logoName}</a>
             </div>
 
             <div class="menu-bar hover ">

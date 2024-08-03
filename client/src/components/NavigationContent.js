@@ -2,11 +2,12 @@ import React from "react";
 
 const NavigationContnet = () => {
     const links = [
-        { href: "/index-one", text: "Home", img: "images/bg-image-three.jpg" },
-        { href: "about-one", text: "About", img: "images/about-img.jpg" },
-        { href: "songs-one", text: "Songs", img: "images/album-thumbnail-nine.jpg" },
-        { href: "blog-one", text: "Blogs", img: "images/main-bg-three.jpg" },
-        { href: "contact-one", text: "Contact", img: "images/album-thumbnail-four.jpg" }
+        { href: "/", text: "Home", img: "images/bg-image-three.jpg" },
+        { href: "vote", text: "Vote", img: "images/about-img.jpg" },
+        { href: "store", text: "Store", img: "images/album-thumbnail-nine.jpg" },
+        { href: "winners", text: "Winners", img: "images/main-bg-three.jpg" },
+        { href: "about", text: "About", img: "images/album-thumbnail-four.jpg" },
+        { href: "contact", text: "Contact", img: "images/album-thumbnail-four.jpg" }
     ]
 
     const socialLinks = [

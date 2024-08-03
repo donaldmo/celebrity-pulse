@@ -1,0 +1,42 @@
+.emoji-container {
+    background-color: #2c2c2c;
+    height: calc(100dvh - 115px);
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+}
+
+.emoji-list {
+    background-color: #2c2c2c;
+    display: table;
+    margin-inline: auto;
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.emoji-list ul {
+    display: flex;
+}
+
+.emoji-list ul li {
+    display: flex;
+    cursor: pointer;
+    margin-inline: 2.5px;
+}
+
+.emoji-list ul li button {
+    font-size: 3em;
+    cursor: pointer;
+    padding: 2px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    line-height: 44px;
+    outline-color: rgba(255, 255, 255, 0.1);
+}
+
+.emoji-animate {
+    position: absolute;
+    will-change: transform;
+    font-size: 4em;
+}
