@@ -17,6 +17,7 @@ import BlogSingle from "./pages/BlogSingle";
 import Contact from "./pages/Contact"
 import Celebrities from "./pages/Celebrities";
 import Vote from "./pages/Vote"
+import BlogTwo from "./pages/BlogTwo";
 
 
 const App = () => {
@@ -24,7 +25,7 @@ const App = () => {
     <UserProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Celebrities />} />
+          <Route path="/" element={<BlogTwo />} />
           <Route path="/celebrities" element={<Blog />} />
           <Route path="/vote" element={<Vote />} />
           <Route path="/store" element={<About />} />

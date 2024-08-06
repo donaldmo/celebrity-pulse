@@ -2017,7 +2017,7 @@ BLOG TWO
 ====================================*/
 
 #blog-two {
-  /* background: url('/images/blog-bg.JPG'); */
+  background: url("/public/images/blog-bg.JPG");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
