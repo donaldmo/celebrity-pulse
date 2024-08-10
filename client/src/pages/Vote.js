@@ -15,6 +15,7 @@ import Navigation from "../components/Navigation";
 import Headphone from "../components/Headphone";
 import Progressbar from "../components/Progressbar";
 import NavigationContnet from "../components/NavigationContent";
+import CountdownTimer from "../components/CountdownTimer";
 
 const Vote = () => {
     const location = useLocation();
@@ -83,9 +84,16 @@ const Vote = () => {
         setVoteCount(parseInt(event.target.value, 10) || 1);
     };
 
+    const handleBuy = (event) => {
+        event.preventDefault();
+        navigate("/store")
+    }
+
     if (loading) {
         return <div>Loading...</div>; // Show loading state
     }
+
+    const futureDate = '2024-09-30T23:59:59';
 
     return (
         <main id="blog-one">
@@ -93,8 +101,9 @@ const Vote = () => {
             {/* <Preloader /> */}
 
             <div id="blog-one-content">
-                <Heading title={"VOTE"} />
                 <Navigation />
+
+                <CountdownTimer targetDate={futureDate} />
 
                 <div class="center">
                     <div id="blogs-container">
@@ -115,27 +124,47 @@ const Vote = () => {
                                             onChange={handleVoteChange}
                                             className="input-same-line"
                                             required
+                                            style={{ marginTop: "0" }}
                                         />
+                                        <br />
+                                        4 Daily Free Tokens to Vote
                                     </div>
 
                                     <div class="blog-info">
                                         <div class="blog-duration">
-                                            <img src="/images/clock.png" alt="clock" />
-                                            &nbsp; 2 Min
-                                        </div>
-
-                                        <div class="blog-type">
-                                            {artist.votes} Votes
+                                            <img src="/images/dollar.png" alt="clock"
+                                                style={{ height: "32px" }}
+                                            />
+                                            &nbsp; 0 tokens
                                         </div>
 
                                         <a href={"#vote"} title={`Vote for ${artist.name}`} onClick={handleVote}>
-                                            <div class="blog-read-more">
+                                            <div class="blog-read-more" style={{ padding: "0" }}>
+                                                <button type="button" id="submit" class="hover"
+                                                    style={{ margin: "0", padding: "10px" }}
+                                                >
+                                                    VOTE
+                                                </button>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="blog-info">
+                                        <div class="blog-duration">
+                                            Buy more tokens
+                                        </div>
+
+                                        <a href={"/store"} title={`Buy tokens`} onClick={handleBuy}>
+                                            <div class="blog-read-more" >
                                                 <i class="gg-arrow-right"></i>
                                             </div>
                                         </a>
                                     </div>
+
                                 </div>
-                                <div class="blog-date">02 Aug 23</div>
+                                <div class="blog-date">
+                                    {artist.votes} VOTES
+                                </div>
                             </div>
                         )}
                     </div>

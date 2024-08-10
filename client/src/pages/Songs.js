@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { db, collection, getDocs, updateDoc, doc } from "../firebase";
 import Navigation from "../components/Navigation"
 import NavigationContent from "../components/NavigationContent";
+import CountdownTimer from "../components/CountdownTimer";
+import Progressbar from "../components/Progressbar";
+import Headphone from "../components/Headphone";
 
 const Songs = () => {
     const [artists, setArtists] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
+    const futureDate = '2024-09-30T23:59:59';
 
     useEffect(() => {
         fetchArtists();
@@ -30,14 +37,8 @@ const Songs = () => {
         }
     };
 
-    const voteForArtist = async (id, currentVotes) => {
-        try {
-            const artistDoc = doc(db, "artists", id);
-            await updateDoc(artistDoc, { votes: currentVotes + 1 });
-            fetchArtists();
-        } catch (error) {
-            console.error("Error updating artist votes:", error);
-        }
+    const handleVoteClick = (id) => {
+        navigate(`/vote?id=${id}`);
     };
 
     return (
@@ -45,18 +46,14 @@ const Songs = () => {
             <div id="songs-one-content">
                 <Navigation />
 
-                <div class="heading">
-                    <div class="text">
-                        CELEBRITIES
-                    </div>
-                </div>
+                <CountdownTimer targetDate={futureDate} />
 
                 <div class="center">
                     <div id="songs-container">
                         {loading ? (
                             <p>Loading...</p>
                         ) : artists.length === 0 ? (
-                            <p>No artists available.</p>
+                            <p>Nothing yet...</p>
                         ) : (
                             <ul>
                                 {artists.slice(0, 10).map((artist) => (
@@ -72,21 +69,18 @@ const Songs = () => {
                                             </div>
 
                                             <div class="music-player">
-                                                <div class="play-song mouse">
-                                                    <img src="/images/vote-white.png" alt="play" data-song="blindinglights" />
+                                                <div class="download-song mouse">
 
-                                                    <audio data-audio="blindinglights">
-                                                        <source
-                                                            src="/music/The-Weeknd-Blinding-Lights-_Lyrics_.ogg"
-                                                            type="audio/ogg" />
-                                                        <source src="music/The Weeknd - Blinding Lights (Lyrics).mp3" type="audio/mp3" />
-                                                    </audio>
+                                                    {artist.votes} votes
                                                 </div>
 
-                                                <div class="download-song mouse">
-                                                    <a href="music/The Weeknd - Blinding Lights (Lyrics).mp3"
-                                                        download="Blinding Lights - Arlo Brown">{artist.votes} votes
+                                                <div class="play-song mouse">
+                                                    <a href={`/vote?id=${artist.id}`}
+                                                        title={`${artist.name}`}
+                                                        onClick={() => handleVoteClick(artist.id)}>
+                                                        <button type="button" id="submit" class="hover" style={{ margin: "0px", padding: "8px", fontSize: "16px" }}>VOTE</button>
                                                     </a>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -99,10 +93,7 @@ const Songs = () => {
                     </div>
                 </div>
 
-                <div class="headphone img text">
-                    <img src="/images/headphone.png"
-                        title="headphone zone" class="text" alt="headphone" />
-                </div>
+                <Headphone />
 
                 <div className="music-indicator">
                     <span style={{ '--i': 1 }} className="music-indicator-span"></span>
@@ -111,9 +102,7 @@ const Songs = () => {
                     <span style={{ '--i': 4 }} className="music-indicator-span"></span>
                 </div>
 
-                <div class="progress-bar-container fade-in">
-                    <div class="progressbar"></div>
-                </div>
+                <Progressbar />
             </div>
 
             <NavigationContent />

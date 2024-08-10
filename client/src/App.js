@@ -25,8 +25,8 @@ const App = () => {
     <UserProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<BlogTwo />} />
-          <Route path="/celebrities" element={<Blog />} />
+          <Route path="/" element={<BlogSingle />} />
+          <Route path="/celebrities" element={<Songs />} />
           <Route path="/vote" element={<Vote />} />
           <Route path="/store" element={<About />} />
           <Route path="/winners" element={<AboutTwo />} />

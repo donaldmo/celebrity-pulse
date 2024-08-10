@@ -52,6 +52,18 @@ const BlogTwo = () => {
 
                 <Navigation />
 
+                <div className="center-para">
+                    <div className="blog-text">
+                        <div class="blog-heading text-scroll reveal" style={{ fontSize: "32px" }}>
+                            THE MOST SHINING START IN THAILAND
+                        </div>
+
+                        <div class="para text-scroll reveal" style={{ fontSize: "18px" }}>
+                            Voting period: Jul.14 - Aug.02 20:00 BKK
+                        </div>
+                    </div>
+                </div>
+
                 <div class="center">
                     <div id="blogs-container">
                         {artists.map((data, index) => (

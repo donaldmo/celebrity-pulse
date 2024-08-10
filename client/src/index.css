@@ -2243,6 +2243,23 @@ CONTACT ONE
   text-transform: uppercase;
 }
 
+/* 
+ *  Edit 
+ */
+input,
+textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgb(240, 240, 240, .6);
+  padding: 10px 20px;
+  margin: 10px;
+  margin-top: 25px;
+  font-size: 18px;
+  color: rgb(240, 240, 240, .8);
+  font-family: camel;
+  text-transform: uppercase;
+}
+
 #contact-one #form textarea {
   height: 100px;
 }
@@ -2253,6 +2270,26 @@ CONTACT ONE
 }
 
 #contact-one #form button {
+  background: transparent;
+  outline: none;
+  border: 1px solid rgb(255, 255, 255, .4);
+  color: rgb(245, 245, 245);
+  padding: 10px 30px;
+  font-size: 18px;
+  margin: 20px;
+  font-family: camel;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .4s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+
+/*
+ *
+ */
+button {
   background: transparent;
   outline: none;
   border: 1px solid rgb(255, 255, 255, .4);
@@ -2281,12 +2318,37 @@ CONTACT ONE
   transition: all .4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+/*
+*/
+button::after {
+  content: "";
+  background: rgb(240, 240, 240, .8);
+  left: 0;
+  top: 100%;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transition: all .4s cubic-bezier(0.19, 1, 0.22, 1);
+}
 
 #contact-one #form button:hover::after {
   top: 0%;
 }
 
+/* 
+*/
+button:hover::after {
+  top: 0%;
+}
+
 #contact-one #form button:hover {
+  color: #000f11;
+}
+
+/*
+*/
+button:hover {
   color: #000f11;
 }
 

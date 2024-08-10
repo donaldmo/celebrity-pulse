@@ -9,8 +9,10 @@ import BlogCard from "../components/BlogCard";
 import Headphone from "../components/Headphone";
 import Progressbar from "../components/Progressbar";
 import NavigationContnet from "../components/NavigationContent";
+import CountdownTimer from "../components/CountdownTimer";
 
 const Blog = () => {
+    const futureDate = '2024-09-30T23:59:59';
     const [loading, setLoading] = useState(true);
     const [artists, setArtists] = useState([])
 
@@ -43,7 +45,7 @@ const Blog = () => {
             <Preloader /> */}
 
             <div id="blog-one-content">
-                <Heading title={"BLOGS"} />
+                <CountdownTimer targetDate={futureDate} />
 
                 <Navigation />
 
