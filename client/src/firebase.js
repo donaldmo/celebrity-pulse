@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, collection, getDocs, getDoc, 
-    updateDoc, doc, addDoc, setDoc } from "firebase/firestore";
+    updateDoc, doc, addDoc, setDoc, where, query } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
@@ -32,5 +32,7 @@ export {
     ref,
     uploadBytes,
     getDownloadURL,
-    auth
+    auth,
+    where,
+    query
 };

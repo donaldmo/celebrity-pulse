@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import {
-    db, doc, getDoc, updateDoc
-} from "../firebase";
+import { db, collection, query, where, getDocs, doc, getDoc, updateDoc } from "../firebase";
+import { useUser } from "../components/UserContext";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,13 +17,18 @@ import NavigationContnet from "../components/NavigationContent";
 import CountdownTimer from "../components/CountdownTimer";
 
 const Vote = () => {
+    const { user } = useUser(); // Get the user from context
     const location = useLocation();
     const navigate = useNavigate();
+
     const [artist, setArtist] = useState(null);
     const [loading, setLoading] = useState(true);
     const [voteCount, setVoteCount] = useState(1);
 
+    const [targetDate, setTargetDate] = useState(null);
+
     useEffect(() => {
+
         const queryParams = new URLSearchParams(location.search);
         const queryId = queryParams.get("id");
 
@@ -33,7 +37,12 @@ const Vote = () => {
             return;
         }
 
-        const fetchArtist = async () => {
+        if (!user) {
+            navigate(`/login?redirect=/vote?id=${queryId}`);
+            return;
+        }
+
+        const fetchArtistAndEvent = async () => {
             try {
                 const docRef = doc(db, "artists", queryId);
                 const docSnap = await getDoc(docRef);
@@ -43,6 +52,18 @@ const Vote = () => {
                 } else {
                     console.error("No such artist!");
                     navigate("/");
+                    return;
+                }
+
+                // Query the event collection to find the event with name "shining_star"
+                const eventQuery = query(collection(db, "event"), where("name", "==", "shining_star"));
+                const eventQuerySnapshot = await getDocs(eventQuery);
+
+                if (!eventQuerySnapshot.empty) {
+                    const eventData = eventQuerySnapshot.docs[0].data();
+                    setTargetDate(eventData.targetDate);
+                } else {
+                    console.error("No event found with the name 'shining_star'!");
                 }
             } catch (error) {
                 console.error("Error fetching artist:", error);
@@ -52,8 +73,8 @@ const Vote = () => {
             }
         };
 
-        fetchArtist();
-    }, [location.search, navigate]);
+        fetchArtistAndEvent();
+    }, [location.search, navigate, user]);
 
     const handleVote = async (event) => {
         event.preventDefault();
@@ -97,13 +118,14 @@ const Vote = () => {
 
     return (
         <main id="blog-one">
+            <ToastContainer />
             <Cursor />
             {/* <Preloader /> */}
 
             <div id="blog-one-content">
                 <Navigation />
 
-                <CountdownTimer targetDate={futureDate} />
+                <CountdownTimer targetDate={targetDate} />
 
                 <div class="center">
                     <div id="blogs-container">
@@ -175,8 +197,6 @@ const Vote = () => {
             </div>
 
             <NavigationContnet />
-
-            <ToastContainer />
         </main>
     )
 }

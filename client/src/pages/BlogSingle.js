@@ -30,14 +30,14 @@ const BlogSingle = () => {
 
                 <div class="center">
                     <div class="blog-img img">
-                        <img src="/images/main-bg-three.jpg" style={{ maxHeight: "938px" }} alt="blog-img" />
+                        <img src="/images/main-bg-three.jpg" style={{ maxWidth: "780px" }} alt="blog-img" />
                     </div>
 
                     <div class="center-para">
                         <div class="blog-text">
                             <div class="blog-info">
                                 <div class="blog-date text-scroll">
-                                    Aug.02 20:00 BKK
+                                    Jul.14 - Aug.02 20:00 BKK
                                 </div>
 
                                 <div class="blog-duration img-scroll text-scroll"
