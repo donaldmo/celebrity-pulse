@@ -4,33 +4,40 @@ function App() { // Component name updated to "App"
 	const [response, setResponse] = useState('');
 	const [redirectUrl, setRedirectUrl] = useState(null);
 
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+  
 	useEffect(() => {
-		registerWebhook();
-	}, []);
-
-	const registerWebhook = async () => {
+	  const createWebhook = async () => {
 		try {
-			const webhookUrl = 'https://parseapi.back4app.com/functions/webhook';
-
-			const response = await fetch('https://parseapi.back4app.com/functions/register-webhook', {
-				method: 'POST',
-				headers: {
-					'X-Parse-Application-Id': 'jo4wRrT8Yp5mhrY3mvkM3Dcl7j3fcLnDvYAxmrGZ',
-					'X-Parse-REST-API-Key': 'h7d13a90kyIYHx5HCLWkbMxDUfXdLokEfpJEK6l4',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					secretKey: 'sk_test_a27f36bfRgzl33N218448d5b44ac',
-					webhookUrl: webhookUrl,
-				}),
-			});
-
-			const data = await response.json();
-			console.log('Webhook registration response:', data);
+		  const res = await fetch('https://payments.yoco.com/api/webhooks', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			  'Authorization': 'Bearer sk_test_a27f36bfRgzl33N218448d5b44ac'
+			},
+			body: JSON.stringify({
+			  name: 'celebrity-pulse',
+			  url: 'https://parseapi.back4app.com/functions/webhook-endpoint'
+			})
+		  });
+  
+		  if (!res.ok) {
+			throw new Error('Network response was not ok');
+		  }
+  
+		  const result = await res.json();
+		  console.log("CREATE WEBHOOK: ", result)
+		  setResponse(result);
 		} catch (error) {
-			console.error('Error registering webhook:', error);
+		  setError(error);
+		} finally {
+		  setLoading(false);
 		}
-	};
+	  };
+  
+	  createWebhook();
+	}, []);
 
 	const handleCheckout = async () => {
 		try {
@@ -43,23 +50,20 @@ function App() { // Component name updated to "App"
 				},
 				body: JSON.stringify({
 					amount: 900, // Amount in cents
-					currency: 'ZAR',
-					successUrl: 'http://localhost:3000/success',
-					cancelUrl: 'http://localhost:3000/cancel',
-					failureUrl: 'http://localhost:3000/failure',
+					currency: 'ZAR'
 				}),
 			});
 
 			const data = await response.json();
-			console.log(data.result.redirectUrl)
+			console.log(data.result)
 
 			if (data.result.redirectUrl) {
-				window.location.href = data.result.redirectUrl; // Redirect to the payment page
+				window.location.href = data.result.redirectUrl;
 			} else {
 				console.error('Failed to create checkout:', data);
 			}
 		} catch (error) {
-			console.error('Error creating checkout:', error);
+			console.error('Error creating checkout: ', error);
 		}
 	};
 
@@ -85,10 +89,10 @@ function App() { // Component name updated to "App"
 
 	return (
 		<div className="App">
-			<h1>Cloud Function Response</h1>
-			<p>{response}</p>
+
 			<button onClick={handleHelloFunction}>Call Hello Function</button>
 			<button onClick={handleCheckout}>Create Checkout</button>
+
 			{redirectUrl && (
 				<div>
 					<p>Redirect to checkout:</p>
