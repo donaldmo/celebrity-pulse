@@ -19,13 +19,17 @@ import Celebrities from "./pages/Celebrities";
 import Vote from "./pages/Vote"
 import BlogTwo from "./pages/BlogTwo";
 
+import Demo from "./Demo"
+import Success from "./pages/Success";
+
 
 const App = () => {
   return (
     <UserProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<BlogSingle />} />
+          <Route path="/" element={<Demo />} />
+          {/* <Route path="/" element={<BlogSingle />} /> */}
           <Route path="/celebrities" element={<Songs />} />
           <Route path="/vote" element={<Vote />} />
           <Route path="/store" element={<About />} />
@@ -40,6 +44,8 @@ const App = () => {
           <Route path="/contact-one" element={<Contact />} />
           <Route path="/artists" element={<Artists />} />
           <Route path="/admin" element={<Admin />} />
+
+          <Route path="/success" element={<Success />} />
         </Routes>
       </Router>
     </UserProvider>

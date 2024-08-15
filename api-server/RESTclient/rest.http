@@ -32,7 +32,8 @@ Authorization: Bearer sk_test_a27f36bfRgzl33N218448d5b44ac
 
 {
   "name": "celebrity-pulse",
-  "url": "https://parseapi.back4app.com/functions/webhook-endpoint"
+  "url": "https://parseapi.back4app.com/functions/webhook-endpoint",
+  "url": "https://aa0e-165-16-180-99.ngrok-free.app/webhook-endpoint"
 }
 
 
