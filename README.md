@@ -1,90 +1,36 @@
-
-
-# Celebrity Pulse
-
-Celebrity Pulse is a web application that allows users to stay updated with the latest news and trends about their favorite celebrities.
-
-## Project Structure
-
-```
-client/
-server/
-  ├── API/
-  ├── Controller/
-  ├── Models/
-  ├── Views/
-  ├── app.py
-  ├── requirements.txt
-```
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-### Cloning the Repository
+First, run the development server:
 
-First, clone the repository from GitHub:
-
-```sh
-git clone https://github.com/donaldmo/celebrity-pulse.git
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### Setting Up the Server
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Navigate into the `server` directory:
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-```sh
-cd server
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### Creating a Virtual Environment
+## Learn More
 
-Create a virtual environment to manage your dependencies:
+To learn more about Next.js, take a look at the following resources:
 
-```sh
-python -m venv .venv
-```
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Activate the virtual environment:
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-- On Windows:
-  ```sh
-  .venv\Scripts\activate
-  ```
-- On macOS and Linux:
-  ```sh
-  source .venv/bin/activate
-  ```
+## Deploy on Vercel
 
-### Installing Requirements
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Open the `requirements.txt` file and install each requirement one by one. Here is an example:
-
-1. Open `requirements.txt` on vscode:
-    ```sh
-    code .
-    ```
-   
-2. Install each requirement:
-    ```sh
-    pip install streamlit
-    pip install firebase_admin
-    pip install python_dotenv
-    pip install streamlit-shadcn-ui
-    pip install pyrebase4
-    pip install google-auth
-    pip install httpx-oauth
-    ```
-
-### Running the Application
-
-Once all the dependencies are installed, you can run the application using Streamlit:
-
-```sh
-streamlit run app.py
-```
-
-## Acknowledgments
-
-- Streamlit for providing an easy way to create data-driven web applications.
-- Firebase for backend services.
-- All other libraries and tools used in this project.
----
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

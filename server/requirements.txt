@@ -1,7 +1,0 @@
-streamlit
-firebase_admin
-python_dotenv
-streamlit-shadcn-ui
-pyrebase4
-google-auth
-httpx-oauth
