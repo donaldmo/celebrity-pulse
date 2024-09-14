@@ -1,13 +1,6 @@
 import { notFound } from "next/navigation";
 
-type ReviewDetailProp = {
-    params: {
-        productId: string,
-        reviewId: string
-    }
-}
-
-export default function ReviewDetail({ params }: ReviewDetailProp) {
+export default function ReviewDetail({ params }) {
     const { productId, reviewId } = params;
 
     if (parseInt(reviewId) > 1000) {
