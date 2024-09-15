@@ -1,0 +1,3 @@
+### Fetch tickets data
+GET http://localhost:3000/api/store
+Content-Type: application/json

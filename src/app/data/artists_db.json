@@ -1,0 +1,20 @@
+{
+    "artists": [
+        {
+            "id": "1",
+            "name": "Artist One",
+            "slug": "artist-one",
+            "image_url": "/images/album-thumbnail-eight.jpg",
+            "votes": 123,
+            "descripttion": "Artist One description"
+        },
+        {
+            "id": "2",
+            "name": "Artist Two",
+            "slug": "artist-two",
+            "image_url": "/images/album-thumbnail-two.jpg",
+            "votes": 456,
+            "descripttion": "Artist Two description"
+        }
+    ]
+}
