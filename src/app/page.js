@@ -24,16 +24,18 @@ export default function Home() {
           <div class="progressbar"></div>
         </div>
 
-        <div class="about-img fade-in">
+        <div class="about-img fade-in" style={{backgroundImage: "url(/images/Yoko Apasra.jpg)"}}>
         </div>
 
         <div class="about-text">
           <div class="about-text-heading fade-in">
             Hi fans, Welcome to Celebrity Pulse!.
           </div>
+
           <div class="about-text-content fade-in">
             "The Most Shining Star in Thailand" selection, featuring outstanding artists. Fans will vote to determine the winner, shaping the future of Thai entertainment. This marks a pivotal moment for the rise of new Thai talent, with Celebrity Pulse offering global support to the deserving artist. Fans' participation is key in this journey, contributing to the vibrant growth of the industry.
           </div>
+
           <div class="signature fade-in">
             <Link href="/celebrities">
               <button type="button" id="submit" className="hover"

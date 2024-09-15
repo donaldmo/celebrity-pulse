@@ -104,11 +104,9 @@ export default function SingleCelebrity({ params }) {
                                     </div>
 
                                     <div className="blog-info">
-                                        <div className="blog-duration">Vote now</div>
-
-                                        <button className="blog-read-more" onClick={handleVote}>
-                                            <i className="gg-arrow-right"></i>
-                                        </button>
+                                        <div className="blog-duration" style={{color: "tomato"}}>
+                                            <Link href={`/store`}>Buy Tokens</Link>
+                                        </div>
                                     </div>
 
                                     <div className="blog-info">
@@ -118,8 +116,8 @@ export default function SingleCelebrity({ params }) {
                                         </div>
 
                                         <Link href={`/store`}>
-                                            <button className="blog-read-more">
-                                                buy
+                                            <button className="blog-read-more" onClick={handleVote}>
+                                                VOTE
                                             </button>
                                         </Link>
                                     </div>

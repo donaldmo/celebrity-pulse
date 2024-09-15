@@ -46,6 +46,7 @@ export default function Store() {
     return (
         <main id="songs-one">
             <Cursor />
+            
             <Preloader />
 
             <div id="songs-one-content">

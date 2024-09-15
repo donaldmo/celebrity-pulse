@@ -9,6 +9,8 @@ import CountdownTimer from "../../components/CountdownTimer";
 import Progressbar from "../../components/Progressbar";
 import Headphone from "../../components/Headphone";
 import Cursor from "@/components/Cursor";
+import Preloader from "@/components/Preloader";
+import NavigationContnet from "../../components/NavigationContent";
 
 
 export default function Celebrities() {
@@ -51,76 +53,117 @@ export default function Celebrities() {
         fetchArtists();
     }, []);
 
+    const [targetDate, setTargetDate] = useState("2024-09-30T23:59:59"); // example countdown date
 
     return (
         <main id="songs-one">
             <Cursor />
 
+            <Preloader />
+
             <div id="songs-one-content">
                 <Navigation />
+                <NavigationContnet />
 
-                <CountdownTimer targetDate={futureDate} />
+                <div className="heading">
+                    {/* <div className="text">CELEBRITIES</div><br /> */}
+                    <CountdownTimer targetDate={targetDate} />
+                </div>
 
-                <div class="center">
+                <div className="center">
                     <div id="songs-container">
-                        {loading ? (
-                            <>
-                                <div class="p">
-                                    <img src="/images/headphone.png" alt="headphone" />
+                        {artists.map(artist => (
+                            <div className="song fade-up" key={artist.id}>
+                                <div className="song-img">
+                                    <img src={artist.image_url} alt={artist.name} />
                                 </div>
-                            </>
-                        ) : artists.length === 0 ? (
-                            <p>Nothing yet...</p>
-                        ) : (
-                            <ul>
-                                {artists.slice(0, 10).map((artist) => (
-                                    <div class="song fade-up" key={artist.id}>
-                                        <div class="song-img">
-                                            <img src={artist.image_url} alt={artist.name} />
-                                        </div>
 
-                                        <div class="song-details">
-                                            <div class="song-details-content">
-                                                <div class="song-name">{artist.name}</div>
-                                                {/* <div class="artist-name">Arlo Brown Ft. Sza</div> */}
-                                            </div>
-
-                                            <div class="music-player">
-                                                <div class="download-song mouse">
-                                                    {artist.votes} votes
-                                                </div>
-
-                                                <div class="play-song mouse">
-                                                    <Link href={`/celebrities/${createSlug(artist.name)}`}>
-                                                        <button type="button" id="submit" class="hover" style={{ margin: "0px", padding: "8px", fontSize: "16px" }}>
-                                                            VOTE
-                                                        </button>
-                                                    </Link>
-                                                </div>
-                                            </div>
+                                <div className="song-details">
+                                    <div className="song-details-content">
+                                        <div className="song-name">{artist.name}</div>
+                                        <div className="song-name" style={{color: "tomato"}}>
+                                            {artist.votes + " "} Votes
                                         </div>
                                     </div>
 
-                                ))}
-                            </ul>
-                        )}
+                                    <div className="music-player">
+                                        <div className="play-song mouse">
+                                            <Link href={`/celebrities/${artist.slug}`}>
+                                                <button className="blog-read-more">
+                                                    Vote
+                                                </button>
+                                            </Link>
+                                        </div>
 
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
-                <Headphone />
-
-                <div className="music-indicator">
-                    <span style={{ '--i': 1 }} className="music-indicator-span"></span>
-                    <span style={{ '--i': 2 }} className="music-indicator-span"></span>
-                    <span style={{ '--i': 3 }} className="music-indicator-span"></span>
-                    <span style={{ '--i': 4 }} className="music-indicator-span"></span>
+                <div className="headphone img text">
+                    <img src="/images/headphone.png" title="headphone zone" className="text" alt="headphone" />
                 </div>
 
-                <Progressbar />
+                <div className="music-indicator">
+                    <span
+                        style={{ "--i": 1 }}
+                        className="music-indicator-span"
+                    ></span>
+                    <span
+                        style={{ "--i": 2 }}
+                        className="music-indicator-span"
+                    ></span>
+                    <span
+                        style={{ "--i": 3 }}
+                        className="music-indicator-span"
+                    ></span>
+                    <span
+                        style={{ "--i": 4 }}
+                        className="music-indicator-span"
+                    ></span>
+                </div>
+
+                <div className="progress-bar-container fade-in">
+                    <div className="progressbar"></div>
+                </div>
+
             </div>
 
-            <NavigationContent />
+            <div className="navigation-content">
+                <div className="navigation-logo hover opacity">
+                    <a href="#" className="text">ARLO BROWN</a>
+                </div>
+
+                <ul className="navigation-ul">
+                    <li><a href="index-one.html" data-text="Home" data-img="images/bg-image-three.jpg">Home</a></li>
+                    <li><a href="about-one.html" data-text="About" data-img="images/about-img.jpg">About</a></li>
+                    <li><a href="songs-one.html" data-text="Songs" data-img="images/album-thumbnail-nine.jpg">Songs</a></li>
+                    <li><a href="blog-one.html" data-text="Blogs" data-img="images/main-bg-three.jpg">Blogs</a></li>
+                    <li><a href="contact-one.html" data-text="Contact" data-img="images/album-thumbnail-four.jpg">Contact</a></li>
+                </ul>
+
+                <div className="navigation-close hover about-close opacity">
+                    <div className="navigation-close-line"></div>
+                    <div className="navigation-close-line"></div>
+                </div>
+
+                <div className="project-preview"></div>
+
+                <div className="headphone-navigation opacity">
+                    <img src="/images/headphone.png" title="headphone zone" className="text" alt="headphone" />
+                </div>
+
+                <div className="social-media-links-navigation">
+                    <ul>
+                        <li><a href="#" className="text hover opacity">YT</a></li>
+                        <li><a href="#" className="text hover opacity">FB</a></li>
+                        <li><a href="#" className="text hover opacity">IG</a></li>
+                    </ul>
+                </div>
+            </div>
+
         </main>
     )
 }
