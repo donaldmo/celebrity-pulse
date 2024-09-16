@@ -75,7 +75,7 @@ export default function Celebrities() {
                         {artists.map(artist => (
                             <div className="song fade-up" key={artist.id}>
                                 <div className="song-img">
-                                    <img src={artist.image_url} alt={artist.name} />
+                                    <img src={`/images/artists/${artist.image_url}`} alt={artist.name} />
                                 </div>
 
                                 <div className="song-details">

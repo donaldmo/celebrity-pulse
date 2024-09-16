@@ -82,7 +82,7 @@ export default function SingleCelebrity({ params }) {
                         ) : artist ? (
                             <div className="blog fade-up">
                                 <div className="blog-img">
-                                    <img src={`${artist.image_url}`} alt="blog-img" />
+                                    <img src={`/images/artists/${artist.image_url}`} alt="blog-img" />
                                 </div>
 
                                 <div className="blog-text">

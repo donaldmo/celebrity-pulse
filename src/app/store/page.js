@@ -31,6 +31,10 @@ export default function Store() {
         fetchTickets(); // Call the fetch function
     }, []);
 
+    const handleBuy = () => {
+        console.log('handle buy')
+    }
+
     // Render loading state
     if (loading) {
         return <div>Loading...</div>;
@@ -46,7 +50,7 @@ export default function Store() {
     return (
         <main id="songs-one">
             <Cursor />
-            
+
             <Preloader />
 
             <div id="songs-one-content">
@@ -55,7 +59,7 @@ export default function Store() {
 
                 <div className="heading">
                     <div className="text">TICKETS</div>
-                    <div style={{fontSize: "28px"}}>My tickets: 0</div>
+                    <div style={{ fontSize: "28px" }}>My tickets: 0</div>
                 </div>
 
                 <div className="center">
@@ -71,10 +75,13 @@ export default function Store() {
                                     <div className="music-player">
                                         <div className="play-song mouse">
                                             <img src="/images/dollar.png" alt="play" />
+                                            <div className="song-name">$ {ticket.price}</div>
                                         </div>
                                         <div className="download-song mouse">
                                             <a href={`/music/${ticket.price}`}>
-                                                ${ticket.price}<img src="/images/download.png" alt="download" />
+                                                <button className="blog-read-more" onClick={handleBuy}>
+                                                    Buy
+                                                </button>
                                             </a>
                                         </div>
                                     </div>

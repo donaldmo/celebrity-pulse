@@ -2,19 +2,59 @@
     "artists": [
         {
             "id": "1",
-            "name": "Artist One",
-            "slug": "artist-one",
-            "image_url": "/images/album-thumbnail-eight.jpg",
-            "votes": 123,
-            "descripttion": "Artist One description"
+            "name": "Aoom Thaweeporn",
+            "slug": "aoom-thaweeporn",
+            "image_url": "Aoom Thaweeporn.jpg",
+            "votes": 150,
+            "description": "Aoom Thaweeporn is a rising star known for her dynamic performances and artistic creativity."
         },
         {
             "id": "2",
-            "name": "Artist Two",
-            "slug": "artist-two",
-            "image_url": "/images/album-thumbnail-two.jpg",
-            "votes": 456,
-            "descripttion": "Artist Two description"
+            "name": "Orm Kornnaphat",
+            "slug": "orm-kornnaphat",
+            "image_url": "Orm Kornnaphat.jpeg",
+            "votes": 300,
+            "description": "Orm Kornnaphat has captivated audiences with her powerful voice and stage presence."
+        },
+        {
+            "id": "3",
+            "name": "Charlotte Austin",
+            "slug": "charlotte-austin",
+            "image_url": "Charlotte Austin.jpg",
+            "votes": 220,
+            "description": "Charlotte Austin blends modern and classical styles in her music, creating a unique sound."
+        },
+        {
+            "id": "4",
+            "name": "Engfa Waraha",
+            "slug": "engfa-waraha",
+            "image_url": "Engfa Waraha.jpg",
+            "votes": 510,
+            "description": "Engfa Waraha is a versatile artist, celebrated for her stunning visuals and vocal talent."
+        },
+        {
+            "id": "5",
+            "name": "Becky Armstrong",
+            "slug": "becky-armstrong",
+            "image_url": "Becky Armstrong.jpg",
+            "votes": 450,
+            "description": "Becky Armstrong is a well-known figure in the music industry, admired for her lyrical depth and innovation."
+        },
+        {
+            "id": "6",
+            "name": "Faye Peraya",
+            "slug": "faye-peraya",
+            "image_url": "Faye Peraya.jpg",
+            "votes": 320,
+            "description": "Faye Peraya is an emerging talent, blending pop and indie genres with a fresh perspective."
+        },
+        {
+            "id": "7",
+            "name": "Anda Anunta",
+            "slug": "anda-anunta",
+            "image_url": "Anda Anunta.jpg",
+            "votes": 280,
+            "description": "Anda Anunta is known for her soulful voice and emotional performances that resonate with fans."
         }
     ]
 }
