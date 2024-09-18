@@ -1,0 +1,45 @@
+### Fetch tickets data
+GET http://localhost:3000/api/store
+Content-Type: application/json
+
+###
+
+POST https://payments.yoco.com/api/webhooks
+Content-Type: application/json
+Authorization: Bearer sk_test_a27f36bfRgzl33N218448d5b44ac
+
+{
+  "name": "celebrity-pulse-webhook",
+  "url": "https://216f-165-16-180-99.ngrok-free.app/api/store/webhook"
+}
+
+
+###
+# POST https://payments.yoco.com/api/checkouts
+POST http://localhost:3000/api/shop/purchase
+Content-Type: application/json
+Authorization: Bearer sk_test_a27f36bfRgzl33N218448d5b44ac
+
+{
+  "amount": 900,
+  "currency": "ZAR",
+}
+
+### Login or create a user
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "image": "https://example.com/image.jpg",
+  "login": {
+    "expires": "2024-10-10T12:00:00.000Z"
+  }
+}
+
+### POST Request to Trigger Saving Tickets
+POST http://localhost:3000/api/dump/tickets
+Content-Type: application/json
+
+{}

@@ -1,0 +1,44 @@
+{
+    "tickets": [
+        {
+            "amount": "50",
+            "price": "1",
+            "currency": "USD"
+        },
+        {
+            "amount": "250",
+            "price": "5",
+            "currency": "USD"
+        },
+        {
+            "amount": "500",
+            "price": "10",
+            "currency": "USD"
+        },
+        {
+            "amount": "1300",
+            "price": "20",
+            "currency": "USD"
+        },
+        {
+            "amount": "3000",
+            "price": "50",
+            "currency": "USD"
+        },
+        {
+            "amount": "7000",
+            "price": "100",
+            "currency": "USD"
+        },
+        {
+            "amount": "14000",
+            "price": "200",
+            "currency": "USD"
+        },
+        {
+            "amount": "35000",
+            "price": "500",
+            "currency": "USD"
+        }
+    ]
+}
