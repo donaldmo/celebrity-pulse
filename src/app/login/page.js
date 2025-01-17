@@ -13,7 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/store');
+      router.push('/profile');
     }
   }, [status, router]);
 

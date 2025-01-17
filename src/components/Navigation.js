@@ -39,19 +39,19 @@ const Navigation = (props) => {
     const { logoName = "CLEBRITY PULSE" } = props
 
     return (
-        <div class="navigation">
-            <div class="logo hover ">
-                <a href="/" class="text">{logoName}</a>
+        <div className="navigation">
+            <div className="logo hover ">
+                <a href="/" className="text">{logoName}</a>
             </div>
 
-            <div class="menu-bar hover ">
-                <div class="menu-bar-name text">
+            <div className="menu-bar hover ">
+                <div className="menu-bar-name text">
                     Menu
                 </div>
 
-                <div class="menu-bar-lines text">
-                    <div class="menu-bar-line"></div>
-                    <div class="menu-bar-line"></div>
+                <div className="menu-bar-lines text">
+                    <div className="menu-bar-line"></div>
+                    <div className="menu-bar-line"></div>
                 </div>
             </div>
         </div>

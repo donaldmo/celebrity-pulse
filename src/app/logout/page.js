@@ -1,31 +1,46 @@
 "use client"; // This ensures the component runs on the client side
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 import Navigation from '../../components/Navigation';
 import NavigationContnet from '../../components/NavigationContent';
+import Loader from '../../components/Loader'
+import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const Logout = () => {
     const [loading, setLoading] = useState(true);
     const [loggedOut, setLoggedOut] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
-        // This should run only on the client side
+
         const handleLogout = async () => {
             try {
-                await signOut({ redirect: false }); // Prevent automatic redirection
-                setLoggedOut(true); // Indicate that the user has logged out
+                await signOut({ redirect: false });
+
+                // toast.success('Successfully Logged out!', {
+                //     duration: 2000,
+                //     position: 'top-center'
+                // });
+
+                setLoggedOut(true);
             } catch (error) {
-                console.error('Error during logout:', error);
+                toast.error('Error during logout');
             } finally {
-                setLoading(false); // Set loading to false after signing out
+                setLoading(false);
             }
         };
 
         handleLogout(); // Call the logout function when component mounts
     }, []);
+
+    const handleLogin = async () => {
+        await signIn('google');
+        router.push('/store');
+    };
 
     return (
         <main id="songs-one">
@@ -33,20 +48,27 @@ const Logout = () => {
                 <Navigation />
                 <NavigationContnet />
 
+                <div className="heading">
+                    <div className="text">LOGOUT</div>
+                </div>
 
-                {loading ? (
-                    <div className="heading">
-                        <div className="text">Logging you out...</div>
+                {loading && (<Loader />)}
+
+                {!loading && loggedOut && (<>
+                    <div className="center" style={{ color: "white" }}>
+                        <p>You have Successfully logged out.</p>
                     </div>
-                ) : loggedOut ? (
-                    <div>
-                        <h2>Logged Out Successfully!</h2>
-                        <p>You've been successfully logged out. If you want to continue, please log in again.</p>
-                        <Link href="/login">
-                            <button style={{ padding: '10px 20px', fontSize: '16px' }}>Login Again</button>
-                        </Link>
+
+
+                    <div className="center">
+                        <button
+                            onClick={handleLogin}
+                            style={{ padding: '10px 20px', fontSize: '16px' }}
+                        >
+                            Login with Google
+                        </button>
                     </div>
-                ) : null}
+                </>)}
             </div>
         </main>
     );
