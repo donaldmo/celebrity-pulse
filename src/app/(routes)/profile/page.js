@@ -90,11 +90,15 @@ export default function Profile() {
                         <div className="song fade-up">
                             <div className="song-details">
                                 <div className="song-details-content">
-                                    <div className="song-name">Free Tickets: - <span>4</span></div>
+                                    <div className="song-name">Free Tokens: <span style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                        4
+                                    </span></div>
                                 </div>
 
                                 <div className="song-details-content">
-                                    <div className="song-name">Purchased Tickets: - <span>4</span></div>
+                                    <div className="song-name">Purchased Tokens: <span style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                        0
+                                    </span></div>
                                 </div>
 
                                 <div className="music-player">
@@ -107,7 +111,7 @@ export default function Profile() {
                                             className="blog-read-more"
                                             onClick={handleBuy}
                                         >
-                                            Buy
+                                            Buy Tokens
                                         </button>
                                     </div>
                                 </div>

@@ -40,7 +40,10 @@ const CountdownTimer = ({ targetDate }) => {
     return (
         <div className="heading">
             <div className="text">
-                {formatTime(timeLeft.days)}: {formatTime(timeLeft.hours)}: {formatTime(timeLeft.minutes)}: {formatTime(timeLeft.seconds)}
+                {formatTime(timeLeft.days)}<span style={{fontSize: '12px'}}>D </span>
+                {formatTime(timeLeft.hours)}<span style={{fontSize: '12px'}}>H </span>
+                {formatTime(timeLeft.minutes)}<span style={{fontSize: '12px'}}>M </span> 
+                {formatTime(timeLeft.seconds)}<span style={{fontSize: '12px'}}>S </span> 
             </div>
         </div>
     );

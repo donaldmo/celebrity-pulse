@@ -36,11 +36,11 @@ export default function Home() {
           </div>
 
           <div class="signature fade-in">
-            <Link href="/celebrities">
+            <Link href="/contests">
               <button type="button" id="submit" className="hover"
                 style={{ margin: "0", padding: "10px" }}
               >
-                SEE FULL LIST
+                View All Contests
               </button>
             </Link>
           </div>

@@ -1,0 +1,10 @@
+
+### Fetch contest
+GET http://localhost:3000/api/contests
+
+###
+GET http://localhost:3000/api/contests/678a52f53d2f7d53ef18c86f
+
+###
+GET http://localhost:3000/api/contests/678a52f53d2f7d53ef18c86f?celebrity=678a54223d2f7d53ef18c91d
+

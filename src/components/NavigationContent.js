@@ -18,12 +18,14 @@ const NavigationContnet = () => {
     ]
 
     return (
-        <div class="navigation-content">
-            <div class="navigation-logo hover opacity">
-                <a href="index-two" class="text">CELEBRITY PULSE</a>
+        <div className="navigation-content">
+            <div className="navigation-logo hover opacity">
+                <a href="index-two" className="text">
+                    CELEBRITY PULSE
+                </a>
             </div>
 
-            <ul class="navigation-ul">
+            <ul className="navigation-ul">
                 {links.map((link, index) => (
                     <li key={index}>
                         <Link href={link.href} >
@@ -33,22 +35,22 @@ const NavigationContnet = () => {
                 ))}
             </ul>
 
-            <div class="navigation-close hover about-close opacity">
-                <div class="navigation-close-line"></div>
-                <div class="navigation-close-line"></div>
+            <div className="navigation-close hover about-close opacity">
+                <div className="navigation-close-line"></div>
+                <div className="navigation-close-line"></div>
             </div>
 
-            <div class="project-preview"></div>
+            <div className="project-preview"></div>
 
-            <div class="headphone-navigation opacity">
+            <div className="headphone-navigation opacity">
                 <img src="/images/headphone.png"
                     title="headphone zone"
-                    class="text"
+                    className="text"
                     alt="headphone"
                 />
             </div>
 
-            <div class="social-media-links-navigation">
+            <div className="social-media-links-navigation">
                 <ul>
                     {socialLinks.map((link, index) => (
                         <li key={index}>
