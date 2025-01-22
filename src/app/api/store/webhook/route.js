@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import Ticket from '@/app/lib/mongodb/schema/tickets';
 import { NextResponse } from 'next/server';
 import { connectMongo } from '../../../lib/mongodb';
-import Users from "../../../lib/mongodb/schema/users";
+import Fans from "../../../lib/mongodb/schema/users";
 import { purchaseTemplate } from "../../../lib/email-template/purchaseTemplate";
 
 export async function POST(request) {
@@ -24,17 +24,18 @@ export async function POST(request) {
             }, { status: 404 });
         }
 
-        const user = await Users.findOne({ email: userEmail });
+        const fan = await Fans.findOne({ email: userEmail });
 
-        if (!user) {
+        if (!fan) {
             return NextResponse.json({
                 error: "User not found"
             }, { status: 404 });
         }
 
-        user.purchases = [...user.purchases, body];
-        await user.save();
-        console.log("updated user: ", user._id);
+        fan.purchases = [...fan.purchases, body];
+        fan.tokens = fan.tokens + ticket.amount
+        await fan.save();
+        console.log("updated fan: ", fan._id);
 
         let transporter = nodemailer.createTransport({
             host: 'mail.codegarden.co.za',
@@ -52,7 +53,7 @@ export async function POST(request) {
         const emailResponse = await transporter.sendMail({
             from: '"Celebrity Pulse" <donald@codegarden.co.za>', // your email as admin
             to: userEmail,
-            subject: `Ticket Purchased.`,
+            subject: `Celebrity Pulse Tokens Purchased.`,
             html: purchaseTemplate(ticket),
         });
 
@@ -61,6 +62,9 @@ export async function POST(request) {
         return NextResponse.json({ status: 'success' }, { status: 200 });
     } catch (error) {
         console.error('Error processing webhook:', error.message);
-        return NextResponse.json({ error: 'Failed to process webhook' }, { status: 500 });
+
+        return NextResponse.json(
+            { error: 'Failed to process webhook' }, { status: 500 }
+        );
     }
 }

@@ -97,13 +97,19 @@ export async function purchaseTicket(invoice) {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to create checkout');
+            const resultError = await response.json();
+            console.log('Response Error: ', resultError.error)
+            throw new Error(resultError.error);
         }
 
         const result = await response.json();
-        console.log(result)
-        return result.redirectUrl
+
+        if (!result.redirectUrl) {
+            throw new Error('No redirect URL returned from the server.');
+        }
+
+        return result.redirectUrl;
     } catch (error) {
-        console.error('Error purchasing ticket:', error.message);
+        throw new Error(error.message);
     }
 }

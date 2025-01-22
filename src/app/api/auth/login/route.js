@@ -1,5 +1,5 @@
 import { connectMongo } from "../../../lib/mongodb";
-import User from '../../../lib/mongodb/schema/users';
+import Fans from '../../../lib/mongodb/schema/users';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
@@ -15,21 +15,23 @@ export async function POST(req) {
 			}, { status: 500 });
 		}
 
-		let user = await User.findOne({ email });
+		let fan = await Fans.findOne({ email });
 
-		if (user) {
-			user.login = {
+		if (fan) {
+			fan.login = {
 				expires: login.expires,
 				time: time,
 			};
 
-			await user.save();
+			await fan.save();
 
-			return NextResponse.json({ message: 'User login updated', user }, { status: 200 });
+			return NextResponse.json(
+				{ message: 'Fan login updated', fan }, { status: 200 }
+			);
 		}
 
-		if (!user) {
-			const newUser = new User({
+		if (!fan) {
+			const newFan = new Fans({
 				name,
 				email,
 				image,
@@ -39,19 +41,19 @@ export async function POST(req) {
 				},
 			});
 
-			await newUser.save();
+			await newFan.save();
 
 			return NextResponse.json({
 				message: 'New user created',
-				user: newUser
+				user: newFan
 			}, { status: 201 });
 		}
 
 	} catch (error) {
 		console.error('Error in /api/auth/login:', error);
 
-		return NextResponse.json({ 
-			message: 'Internal Server Error' 
-		},{ status: 500 });
+		return NextResponse.json({
+			message: 'Internal Server Error'
+		}, { status: 500 });
 	}
 }

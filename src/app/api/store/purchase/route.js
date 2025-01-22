@@ -14,14 +14,20 @@ export async function POST(request) {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create checkout');
+      const errorData = await response.json();
+
+      if (errorData.description) {
+        throw new Error(errorData.description)
+      }
     }
 
     const data = await response.json();
+    console.log('Yoco Results: ', data)
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error creating checkout:', error);
-    return NextResponse.json({ error: 'Failed to process webhook' }, { status: 500 });
+
+    console.log('Error: ', error.message)
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
