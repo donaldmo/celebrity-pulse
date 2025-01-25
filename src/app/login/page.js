@@ -19,7 +19,6 @@ const Login = () => {
 
   const handleLogin = async () => {
     await signIn('google');
-    router.push('/store');
   };
 
   return (

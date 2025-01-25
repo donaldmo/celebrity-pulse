@@ -43,15 +43,28 @@ export async function GET(req, { params }) {
                     foreignField: '_id',
                     as: 'celebrities',
                     pipeline: [
-                        { $match: { _id: celebrityId } } 
+                        { $match: { _id: celebrityId } }
                     ]
                 }
             };
         }
 
+        const filterVotesStage = {
+            $addFields: {
+                votes: {
+                    $filter: {
+                        input: "$votes", // The array you're filtering
+                        as: "vote", // Each element in the array will be referred to as 'vote'
+                        cond: { $eq: ["$$vote.celebrity", new ObjectId(celebrity)] } // Condition: match celebrity field with celebrityId
+                    }
+                }
+            }
+        };
+
         const contest = await collection.aggregate([
             matchStage,
-            lookupStage
+            lookupStage,
+            filterVotesStage
         ]).toArray();
 
         if (!contest || contest.length === 0) {

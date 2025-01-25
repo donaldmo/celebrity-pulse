@@ -112,3 +112,39 @@ export async function purchaseTicket(invoice) {
         throw new Error(error.message);
     }
 }
+
+export async function celebrityVote(session) {
+    try {
+        const { name, email, image } = session.user;
+        const { expires } = session;
+
+        const payload = {
+            name,
+            email,
+            image,
+            login: { expires },
+        };
+
+        // Send a POST request to /api/auth/login
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            const resultError = await response.json();
+            console.log('Response Error: ', resultError.error)
+            throw new Error(resultError.error);
+        }
+
+        console.log('Response: ', response)
+
+        return true
+    } catch (error) {
+        console.log('Fetch Error: ', error.message)
+        throw new Error(error.message);
+    }
+}

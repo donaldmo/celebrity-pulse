@@ -51,7 +51,7 @@ export default function Profile() {
                 }
             } else {
                 toast.error('Failed to load user data.', {
-                    duration: 2000,
+                    duration: 4000,
                     position: 'top-center',
                 });
                 setLoading(false)

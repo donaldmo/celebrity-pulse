@@ -1,8 +1,7 @@
 "use client"; // This ensures the component runs on the client side
 
-import { useEffect, useState, useRef } from 'react';
-import { signOut } from 'next-auth/react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { signOut, } from 'next-auth/react';
 
 import Navigation from '../../components/Navigation';
 import NavigationContnet from '../../components/NavigationContent';
@@ -38,8 +37,7 @@ const Logout = () => {
     }, []);
 
     const handleLogin = async () => {
-        await signIn('google');
-        router.push('/store');
+        router.push('/login')
     };
 
     return (
@@ -52,7 +50,11 @@ const Logout = () => {
                     <div className="text">LOGOUT</div>
                 </div>
 
-                {loading && (<Loader />)}
+                {loading && (
+                    <div className="center">
+                        <Loader />
+                    </div>
+                )}
 
                 {!loading && loggedOut && (<>
                     <div className="center" style={{ color: "white" }}>

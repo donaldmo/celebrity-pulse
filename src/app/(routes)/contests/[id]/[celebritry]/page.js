@@ -6,7 +6,7 @@ import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import { useSearchParams, useParams } from 'next/navigation'
-import { ToastContainer } from "react-toastify";
+import { toast, Toaster } from 'react-hot-toast';
 
 import Navigation from "@/components/Navigation";
 import Headphone from "@/components/Headphone";
@@ -53,7 +53,7 @@ export default function SingleCelebrity() {
     }, [status, router, session]);
 
     useEffect(() => {
-        const fetchArtist = async () => {
+        const fetchContest = async () => {
             try {
                 const response = await fetch(`/api/contests/${contestId}?celebrity=${queryId}`);
 
@@ -76,26 +76,64 @@ export default function SingleCelebrity() {
         };
 
         if (userData) {
-            fetchArtist();
+            fetchContest();
         }
     }, [userData, contestId, queryId]);
+
+    const celebrity = contest?.celebrities[0];
 
     const handleVoteChange = (e) => {
         setVoteCount(e.target.value);
     };
 
-    const handleVote = () => {
-        // alert(`You voted ${voteCount} times for ${artist.name}`);
-    };
+    const handleVote = async () => {
+        const token = session?.accessToken;
 
-    if (contest) console.log('Contest: ', contest)
+        try {
+            const response = await fetch('/api/vote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    celebrityId: celebrity._id,
+                    voteCount,
+                    contestId
+                }),
+            });
+
+            if (!response.ok) {
+                const resultError = await response.json();
+                console.log('Response Error: ', resultError.error)
+                throw new Error(resultError.error);
+            }
+
+            const data = await response.json();
+
+            setContest(data)
+            setVoteCount(0)
+
+            toast.success('Voted successfully!', {
+                duration: 4000,
+                position: 'top-center',
+            });
+        } catch (error) {
+            console.log('Error: ', error.message)
+
+            toast.error(error.message, {
+                duration: 4000,
+                position: 'top-center',
+            });
+        }
+    };
 
     return (
         <main id="blog-one">
-            <ToastContainer />
 
             <div id="blog-one-content">
                 <Navigation />
+                <Toaster />
 
                 {!loading && contest && (
                     <Fragment>
@@ -118,7 +156,6 @@ export default function SingleCelebrity() {
 
                 <div className="center">
                     <div id="blogs-container">
-
                         {loading && <Loader />}
 
                         {!loading && contest && contest.celebrities.length && (
@@ -129,7 +166,7 @@ export default function SingleCelebrity() {
 
                                 <div className="blog-text">
                                     <div className="blog-heading">
-                                        {contest.celebrities[0].name}
+                                        {celebrity.name}
                                     </div>
 
                                     <div className="blog-description">
@@ -163,11 +200,11 @@ export default function SingleCelebrity() {
                                             &nbsp; 0 tokens
                                         </div>
 
-                                        <Link href={`/store`}>
-                                            <button className="blog-read-more" onClick={handleVote}>
-                                                VOTE
-                                            </button>
-                                        </Link>
+                                        <button className="blog-read-more"
+                                            onClick={handleVote}
+                                        >
+                                            VOTE
+                                        </button>
                                     </div>
 
                                     <div className="blog-description">
@@ -176,7 +213,7 @@ export default function SingleCelebrity() {
                                 </div>
 
                                 <div className="blog-date">
-                                    {contest.celebrities[0].votes} VOTES
+                                    {contest?.votes[0].voteCount | 0} VOTES
                                 </div>
                             </div>
                         )}

@@ -40,7 +40,7 @@ function Contests() {
         };
 
         fetchContests();
-    }, []);
+    }, [router.query]);
 
 
 
