@@ -40,13 +40,17 @@ export default function SingleCelebrity() {
             }
 
             if (status === 'authenticated') {
+                if (!session) {
+                    return router.push('/logout')
+                }
+
                 const data = await sendLoginData(session)
                 setUserData(data)
             }
         }
 
         authenticate();
-    }, [status, router]);
+    }, [status, router, session]);
 
     useEffect(() => {
         const fetchArtist = async () => {
@@ -71,8 +75,10 @@ export default function SingleCelebrity() {
             }
         };
 
-        fetchArtist();
-    }, []);
+        if (userData) {
+            fetchArtist();
+        }
+    }, [userData, contestId, queryId]);
 
     const handleVoteChange = (e) => {
         setVoteCount(e.target.value);
@@ -178,7 +184,7 @@ export default function SingleCelebrity() {
                 </div>
 
                 {!loading && userData && (
-                    <Headphone image={userData.image}/>
+                    <Headphone image={userData.image} />
                 )}
             </div>
 

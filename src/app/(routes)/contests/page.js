@@ -65,7 +65,7 @@ function Contests() {
                         {!loading && contests.length && contests.map((song, index) => (
                             <div className="song fade-up" key={index}>
                                 <div className="song-img">
-                                    <iframe src={`https://drive.google.com/file/d/${song.media}/preview`} width="640" height="480" allow="autoplay"></iframe>
+                                    <img src={`${song.media}`} alt="blog-img" />
                                 </div>
 
                                 <div className="song-details">

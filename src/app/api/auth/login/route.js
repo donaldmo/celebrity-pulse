@@ -24,14 +24,10 @@ export async function POST(req) {
 			};
 
 			await fan.save();
-
-			return NextResponse.json(
-				{ message: 'Fan login updated', fan }, { status: 200 }
-			);
 		}
 
 		if (!fan) {
-			const newFan = new Fans({
+			const fan = new Fans({
 				name,
 				email,
 				image,
@@ -41,19 +37,15 @@ export async function POST(req) {
 				},
 			});
 
-			await newFan.save();
-
-			return NextResponse.json({
-				message: 'New user created',
-				user: newFan
-			}, { status: 201 });
+			await fan.save();
 		}
 
-	} catch (error) {
-		console.error('Error in /api/auth/login:', error);
+		return NextResponse.json({ user: fan }, { status: 200 })
 
-		return NextResponse.json({
-			message: 'Internal Server Error'
-		}, { status: 500 });
+	} catch (error) {
+		console.log('Error: ', error.message)
+		return NextResponse.json(
+			{ error: error.message }, { status: 500 }
+		);
 	}
 }

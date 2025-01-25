@@ -38,25 +38,24 @@ export async function sendLoginData(session) {
 
         // Check if the response status is not ok
         if (!response.ok) {
-            const errorDetails = await response.text(); // Fetch server's response text for debugging
-            // console.error(`Login request failed: ${response.status} - ${errorDetails}`);
-            throw new Error(`Failed to log user information. Status: ${response.status}`);
+            const resultError = await response.json();
+            console.log('Response Error: ', resultError.error)
+            throw new Error(resultError.error);
         }
 
         const result = await response.json();
+        console.log('Result: ', result)
 
         // Validate the expected structure in the response
         if (!result?.user) {
-            // console.error('Unexpected response format:', result);
             throw new Error('Invalid response format from login API');
         }
 
         return result.user;
 
     } catch (error) {
-        // Gracefully log and throw an enhanced error
-        // console.error('An error occurred while sending login data:', error.message);
-        throw new Error(error.message);
+        console.log('Error: ', error)
+        throw new Error('Fetch Failed...');
     }
 }
 
