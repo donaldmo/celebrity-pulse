@@ -10,7 +10,7 @@ Authorization: Bearer sk_test_a27f36bfRgzl33N218448d5b44ac
 
 {
   "name": "celebrity-pulse-webhook",
-  "url": "https://b610-165-16-181-99.ngrok-free.app/api/store/webhook"
+  "url": "https://3ed8-196-210-213-238.ngrok-free.app/api/store/webhook"
 }
 
 ###

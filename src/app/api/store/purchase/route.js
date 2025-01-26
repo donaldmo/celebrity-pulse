@@ -4,6 +4,13 @@ export async function POST(request) {
   try {
     const invoice = await request.json();
 
+    console.log(
+      "----------------------------------------------------\n",
+      "| Route: '/api/store/purchase'                      |\n",
+      "____________________________________________________\n"
+    );
+    console.table({ invoice })
+
     const response = await fetch('https://payments.yoco.com/api/checkouts', {
       method: 'POST',
       headers: {
@@ -15,6 +22,7 @@ export async function POST(request) {
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.log('Error Data: ', errorData);
 
       if (errorData.description) {
         throw new Error(errorData.description)

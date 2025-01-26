@@ -8,6 +8,12 @@ import { purchaseTemplate } from "../../../lib/email-template/purchaseTemplate";
 export async function POST(request) {
     try {
         const body = await request.json();
+
+        console.log(
+            "----------------------------------------------------\n",
+            "| Route: '/api/store/webhook'                       |\n",
+            "____________________________________________________\n"
+        );
         console.log('Received webhook data: ', body);
 
         const { metadata } = body.payload;
@@ -24,6 +30,9 @@ export async function POST(request) {
             }, { status: 404 });
         }
 
+        console.log('Ticket Found: ')
+        console.log(ticket)
+
         const fan = await Fans.findOne({ email: userEmail });
 
         if (!fan) {
@@ -31,9 +40,12 @@ export async function POST(request) {
                 error: "User not found"
             }, { status: 404 });
         }
+        console.log('Fan Found: ')
+        console.log(fan)
 
         fan.purchases = [...fan.purchases, body];
-        fan.tokens = fan.tokens + ticket.amount
+        fan.tokens = fan.tokens + ticket.amount;
+
         await fan.save();
         console.log("updated fan: ", fan._id);
 

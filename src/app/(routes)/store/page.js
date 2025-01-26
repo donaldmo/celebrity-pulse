@@ -49,6 +49,45 @@ export default function Store() {
     sendAndSetUserData();
   }, [status, session]);
 
+  // useEffect(() => {
+  //   const YOCO_WEBHOOK_URL = process.env.NEXT_PUBLIC_YOCO_WEBHOOK_URL;
+  //   const YOCO_SECRET_KEY = process.env.NEXT_PUBLIC_YOCO_SECRET_KEY;
+  //   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  //   const fetchWebhook = async () => {
+  //     try {
+  //       const response = fetch(YOCO_WEBHOOK_URL, {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': `Bearer ${YOCO_SECRET_KEY}`
+  //         },
+  //         body: JSON.stringify({
+  //           name: 'celebrity-pulse-webhook',
+  //           url: `${BASE_URL}/api/store/webhook`
+  //         })
+  //       })
+
+  //       if (!response.ok) {
+  //         const resultError = await response.json();
+  //         alert('Webhook Error')
+  //         console.log('Webhook Error: ', resultError.error)
+  //         throw new Error(resultError.error);
+  //       }
+
+  //       alert('Webhook Response: ')
+  //       const result = await response.json();
+  //       console.log('Webhook Response: ', result)
+
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+
+  //   }
+
+  //   // fetchWebhook()
+  // }, [])
+
   const handleBuy = async (event, ticket) => {
     event.preventDefault();
 
