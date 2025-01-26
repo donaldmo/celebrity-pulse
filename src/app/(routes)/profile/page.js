@@ -9,6 +9,7 @@ import NavigationContnet from "@/components/NavigationContent";
 import Loader from "@/components/Loader";
 import { toast, Toaster } from 'react-hot-toast';
 import UserProfileCard from "@/components/UserProfileCard";
+import { sendLoginData } from "@/app/utils";
 
 export default function Profile() {
     const router = useRouter();
@@ -32,14 +33,18 @@ export default function Profile() {
         async function sendAndSetUserData() {
             if (status === 'authenticated') {
                 try {
-                    toast.success(`Logged in user: ${session.user.name}`, {
-                        duration: 4000,
-                        position: 'top-center',
-                    });
+                    const data = await sendLoginData(session);
+                    console.log('Response Data: ', data);
 
-                    setUserData(session.user);
+                    setUserData(data)
+
+                    // toast.success(`Logged in user: ${session.user.name}`, {
+                    //     duration: 4000,
+                    //     position: 'top-center',
+                    // });
+
                 } catch (error) {
-
+                    console.log('Error: ', error)
                     toast.error('Failed to load user data.', {
                         duration: 2000,
                         position: 'top-center',
@@ -49,17 +54,12 @@ export default function Profile() {
                 } finally {
                     setLoading(false);
                 }
-            } else {
-                toast.error('Failed to load user data.', {
-                    duration: 4000,
-                    position: 'top-center',
-                });
-                setLoading(false)
             }
         }
 
         sendAndSetUserData();
-    }, [status, session, userData]);
+
+    }, [status, session]);
 
     const handleBuy = () => {
         router.push('/store');
@@ -68,6 +68,7 @@ export default function Profile() {
     return (
         <main id="songs-one">
             <div id="songs-one-content">
+                <Toaster />
                 <Navigation />
                 <NavigationContnet />
 
@@ -87,36 +88,39 @@ export default function Profile() {
 
                 <div className="center">
                     <div id="songs-container">
-                        <div className="song fade-up">
-                            <div className="song-details">
-                                <div className="song-details-content">
-                                    <div className="song-name">Free Tokens: <span style={{ fontSize: '18px', fontWeight: 'bold' }}>
-                                        4
-                                    </span></div>
-                                </div>
-
-                                <div className="song-details-content">
-                                    <div className="song-name">Purchased Tokens: <span style={{ fontSize: '18px', fontWeight: 'bold' }}>
-                                        0
-                                    </span></div>
-                                </div>
-
-                                <div className="music-player">
-                                    <div className="play-song mouse">
-                                        <img src="/images/dollar.png" alt="dollar" />
+                        {!loading && userData && (
+                            <div className="song fade-up">
+                                <div className="song-details">
+                                    <div className="song-details-content">
+                                        <div className="song-name">Free Tokens: <span style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                            4
+                                        </span></div>
                                     </div>
 
-                                    <div className="download-song mouse">
-                                        <button
-                                            className="blog-read-more"
-                                            onClick={handleBuy}
-                                        >
-                                            Buy Tokens
-                                        </button>
+                                    <div className="song-details-content">
+                                        <div className="song-name">
+                                            Purchased Tokens: <span style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                                {userData.tokens || 0}
+                                            </span></div>
+                                    </div>
+
+                                    <div className="music-player">
+                                        <div className="play-song mouse">
+                                            <img src="/images/dollar.png" alt="dollar" />
+                                        </div>
+
+                                        <div className="download-song mouse">
+                                            <button
+                                                className="blog-read-more"
+                                                onClick={handleBuy}
+                                            >
+                                                Buy Tokens
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
 

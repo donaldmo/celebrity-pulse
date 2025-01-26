@@ -44,7 +44,7 @@ export async function POST(request) {
         console.log(fan)
 
         fan.purchases = [...fan.purchases, body];
-        fan.tokens = fan.tokens + ticket.amount;
+        fan.tokens = Number(fan.tokens) + Number(ticket.amount);
 
         await fan.save();
         console.log("updated fan: ", fan._id);
