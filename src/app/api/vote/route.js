@@ -53,7 +53,7 @@ export async function POST(req) {
         });
 
         if (fan.tokens < 0 || voteCountNumber > fan.tokens) {
-            // throw new Error('Insuficient tokens!')
+            throw new Error('Insuficient tokens!')
         }
 
         const _id = new ObjectId(contestId);
@@ -88,6 +88,18 @@ export async function POST(req) {
 
         console.log('Vote Update: ')
         console.table({ result })
+
+        // Deduct tokens from the user
+        const updatedFan = await fansCollection.updateOne(
+            { email: session?.user.email },
+            { $inc: { tokens: -voteCountNumber } }
+        );
+
+        if (updatedFan.modifiedCount === 0) {
+            throw new Error('Failed to deduct tokens from the user');
+        }
+
+        console.log('Fan"s tokens deducted: ', fan.tokens);
 
         const matchStage = { $match: { _id: new ObjectId(contestId) } };
 
