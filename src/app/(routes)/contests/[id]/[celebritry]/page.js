@@ -110,9 +110,9 @@ export default function SingleCelebrity() {
             }
 
             const data = await response.json();
+            console.log('Data: ', data)
 
             setContest(data)
-            setVoteCount(0)
 
             toast.success('Voted successfully!', {
                 duration: 4000,
@@ -125,6 +125,8 @@ export default function SingleCelebrity() {
                 duration: 4000,
                 position: 'top-center',
             });
+        } finally {
+            setVoteCount(1)
         }
     };
 
@@ -213,7 +215,7 @@ export default function SingleCelebrity() {
                                 </div>
 
                                 <div className="blog-date">
-                                    {contest?.votes[0].voteCount | 0} VOTES
+                                    {contest?.votes[0]?.voteCount | 0} VOTES
                                 </div>
                             </div>
                         )}

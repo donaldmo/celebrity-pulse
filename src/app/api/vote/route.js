@@ -23,6 +23,14 @@ export async function POST(req) {
 
         const { celebrityId, voteCount, contestId } = await req.json();
 
+        console.log(
+            "----------------------------------------------------\n",
+            "| Route: '/api/vote/'                               |\n",
+            "____________________________________________________\n"
+        );
+
+        console.table({ celebrityId, voteCount, contestId });
+
         // Ensure voteCount is a number (in case it's passed as a string)
         const voteCountNumber = Number(voteCount);
         if (isNaN(voteCountNumber)) {
@@ -37,11 +45,16 @@ export async function POST(req) {
 
         const fan = await fansCollection.findOne({ email: session?.user.email });
 
+        console.log('Authenticated User: ');
+        console.table({
+            "Name": fan.name,
+            "Email": fan.email,
+            "Tokens": fan.tokens
+        });
+
         if (fan.tokens < 0 || voteCountNumber > fan.tokens) {
             // throw new Error('Insuficient tokens!')
         }
-
-        // console.log('Fan: ', fan)
 
         const _id = new ObjectId(contestId);
 
@@ -59,7 +72,7 @@ export async function POST(req) {
                 {
                     $push: {
                         votes: {
-                            voteCountNumber,
+                            voteCount: voteCountNumber,
                             celebrity: new ObjectId(celebrityId),
                             id: new ObjectId().toString()
                         }
@@ -73,7 +86,9 @@ export async function POST(req) {
             }
         }
 
-        console.log('Vote Counts Updated...');
+        console.log('Vote Update: ')
+        console.table({ result })
+
         const matchStage = { $match: { _id: new ObjectId(contestId) } };
 
         const lookupStage = {
@@ -88,11 +103,40 @@ export async function POST(req) {
             }
         };
 
+        const addFilteredVotesStage = {
+            $addFields: {
+                votes: {
+                    $filter: {
+                        input: '$votes',
+                        as: 'vote',
+                        cond: { $eq: ['$$vote.celebrity', new ObjectId(celebrityId)] }
+                    }
+                }
+            }
+        };
+
         const contest = await collection.aggregate([
             matchStage,
             lookupStage,
+            addFilteredVotesStage
         ]).toArray();
 
+        // Logging
+        if (contest.length) {
+            const { _id, name, votes } = contest[0];
+
+            console.log('Contest: - After updating');
+            console.table({ id: _id.toString(), name });
+
+            if (votes) {
+                console.log('Contest votes: ')
+                console.table({
+                    'voteCount': votes[0].voteCount,
+                    'celebrity': votes[0].celebrity.toString(),
+                    'id': votes[0].id
+                })
+            }
+        }
 
         return NextResponse.json(contest[0]);
 

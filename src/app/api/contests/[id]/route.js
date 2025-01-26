@@ -73,6 +73,7 @@ export async function GET(req, { params }) {
             );
         }
 
+        console.log('Contest: ', contest)
         // Return the contest with the celebrities array (empty if no celebrities found)
         return NextResponse.json(contest[0]);
     } catch (error) {
