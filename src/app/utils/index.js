@@ -85,7 +85,7 @@ export async function fetchTickets() {
  * @param {*} invoice 
  * @returns 
  */
-export async function purchaseTicket(invoice) {
+export async function handleYoco(invoice) {
     try {
         const response = await fetch('/api/store/purchase', {
             method: 'POST',
@@ -112,6 +112,27 @@ export async function purchaseTicket(invoice) {
         throw new Error(error.message);
     }
 }
+
+const handlePaypal = async () => {
+    try {
+        console.log('HANDLE PAY')
+        const response = await fetch('/api/create-order', { method: 'POST' });
+
+        if (response.ok) {
+            const { approvalUrl } = await response.json();
+
+            window.location.href = approvalUrl;
+        } else {
+            const { error } = await response.json();
+            console.error('Error creating order:', error);
+            alert('Failed to create order. Please try again.');
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        alert('An unexpected error occurred. Please try again.');
+    }
+};
+
 
 export async function celebrityVote(session) {
     try {
@@ -148,3 +169,29 @@ export async function celebrityVote(session) {
         throw new Error(error.message);
     }
 }
+
+export const handlePayPal = async (invoice) => {
+    try {
+        console.log('HANDLE PAY_PAL')
+
+        const response = await fetch('/api/create-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(invoice),
+        });
+
+        if (response.ok) {
+            const { approvalUrl, jwtToken } = await response.json();
+            // window.location.href = approvalUrl;
+
+            return approvalUrl + `&tokenId=${jwtToken}`;
+        } else {
+            const { error } = await response.json();
+            console.error('Error creating order:', error);
+            alert('Failed to create order. Please try again.');
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        alert('An unexpected error occurred. Please try again.');
+    }
+};

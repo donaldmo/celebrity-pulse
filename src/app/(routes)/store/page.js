@@ -6,10 +6,14 @@ import Cursor from '@/components/Cursor';
 import Navigation from '@/components/Navigation';
 import NavigationContnet from '@/components/NavigationContent';
 
-import { sendLoginData, fetchTickets, purchaseTicket } from '@/app/utils';
+import { sendLoginData, fetchTickets, handleYoco, handlePayPal } from '@/app/utils';
 import Loader from '@/components/Loader';
 import Headphone from '@/components/Headphone';
 import { toast, Toaster } from 'react-hot-toast';
+
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Store() {
   const { data: session, status } = useSession();
@@ -18,6 +22,14 @@ export default function Store() {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+
+  const [selectedToken, setSelectedToken] = useState();
+  const [fetching, setFetching] = useState(false)
 
   /**
    * Fetch Tickets | useEffect
@@ -88,12 +100,12 @@ export default function Store() {
   //   // fetchWebhook()
   // }, [])
 
-  const handleBuy = async (event, ticket) => {
-    event.preventDefault();
+  const handleBuy = async (paymentMethod) => {
+    setFetching(true)
 
     try {
       if (status === 'unauthenticated') {
-        const callbackUrl = `/store/purchase?ticketId=${ticket._id}`;
+        const callbackUrl = `/store/purchase?ticketId=${selectedToken._id}`;
         return signIn('google', { callbackUrl });
       }
 
@@ -101,18 +113,41 @@ export default function Store() {
         const invoice = {
           metadata: {
             user_email: userData.email,
-            product_id: ticket._id,
-            product_item: "ticket"
+            product_id: selectedToken._id,
+            product_item: "token"
           },
-          amount: ticket.amount,
+          amount: selectedToken.amount,
           currency: "ZAR",
-          // successUrl: '/store/purchase/success',
         };
 
-        const redirectUrl = await purchaseTicket(invoice);
+        let redirectUrl = "";
+
+        switch (paymentMethod) {
+          case 'PAY_PAL': {
+            redirectUrl = await handlePayPal(invoice);
+            break;
+          }
+
+          case 'DEBIT_CARD': {
+            redirectUrl = await handleYoco(invoice);
+            break;
+          }
+
+          default:
+            toast.error('Unsupported Payment Method!', {
+              duration: 4000,
+              position: 'top-center',
+            });
+
+            break;
+        }
+
+        setShow(false)
+        setFetching(false);
 
         if (redirectUrl) {
-          return window.open(redirectUrl, '_blank');
+          // return window.open(redirectUrl, '_blank');
+          window.location.href = redirectUrl
         }
       }
     } catch (error) {
@@ -120,6 +155,9 @@ export default function Store() {
         duration: 4000,
         position: 'top-center',
       });
+    } finally {
+      setShow(false)
+      setFetching(false);
     }
   };
 
@@ -156,13 +194,20 @@ export default function Store() {
                     <div className="music-player">
                       <div className="play-song mouse">
                         <img src="/images/dollar.png" alt="play" />
-                        <div className="song-name">$ {ticket.price}</div>
+                        <div className="song-name" style={{ width: '50%' }}>
+                          ${ticket.price}
+                        </div>
                       </div>
 
                       <div className="download-song mouse">
                         <button
+                          style={{ margin: '8px' }}
                           className="blog-read-more"
-                          onClick={(event) => handleBuy(event, ticket)}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            setSelectedToken(ticket);
+                            setShow(true);
+                          }}
                         >
                           Buy
                         </button>
@@ -173,6 +218,29 @@ export default function Store() {
               ))}
             </div>
           </div>
+
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Purchase Tokens</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              You're purchasing {selectedToken?.amount} tokens, each valued at ${selectedToken?.price}.
+            </Modal.Body>
+            <Modal.Footer>
+
+              {fetching && <Loader />}
+
+              {!fetching && (<>
+                <Button variant="secondary" onClick={() => handleBuy('PAY_PAL')}>
+                  Buy with Paypal
+                </Button>
+
+                <Button variant="primary" onClick={() => handleBuy('DEBIT_CARD')}>
+                  Buy with Debit Card
+                </Button>
+              </>)}
+            </Modal.Footer>
+          </Modal>
 
           {!loading && userData && (<Headphone image={userData.image} />)}
         </div>
