@@ -24,12 +24,12 @@ export async function POST(request) {
     //   currency: "ZAR",
     // };
 
-    const ticket = await Ticket.findById({ _id });
+    const ticket = await Ticket.findOne({ email: invoice.metadata.email });
 
     if (!ticket) {
-        return NextResponse.json({
-            error: "Ticket not found"
-        }, { status: 404 });
+      return NextResponse.json({
+        error: "Ticket not found"
+      }, { status: 404 });
     }
 
     console.log('Ticket Found: ')
@@ -44,7 +44,7 @@ export async function POST(request) {
         {
           items: [
             {
-              name: `celebritypulse.asia_tokens_${product_id}`,
+              name: `celebritypulse.asia_tokens_${ticket._id.toString()}`,
               description: `Celebrity Pulse ${ticket.amount} tokens, each valued at ${ticket?.price}`,
               quantity: 1,
               unit_amount: {
@@ -73,6 +73,8 @@ export async function POST(request) {
         brand_name: 'celebritypulse.asia',
       },
     }
+
+    console.log('Data: ', data)
 
     const approvalUrl = await createOrder(data);
     console.log('Approve Url: ', approvalUrl)

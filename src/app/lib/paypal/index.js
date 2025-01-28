@@ -34,11 +34,11 @@ export async function createOrder(data) {
     return response.data.links.find((link) => link.rel === 'approve').href;
 }
 
-export async function capturePayment(orderId) {
+export async function capturePayment(token) {
     const accessToken = await generateAccessToken();
 
     const response = await axios({
-        url: `${PAYPAL_BASE_URL}/v2/checkout/orders/${orderId}/capture`,
+        url: `${PAYPAL_BASE_URL}/v2/checkout/orders/${token}/capture`,
         method: 'post',
         headers: {
             'Content-Type': 'application/json',

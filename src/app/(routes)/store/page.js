@@ -102,6 +102,7 @@ export default function Store() {
 
   const handleBuy = async (paymentMethod) => {
     setFetching(true)
+    localStorage.setItem("tokenId", selectedToken._id);
 
     try {
       if (status === 'unauthenticated') {
@@ -224,7 +225,7 @@ export default function Store() {
               <Modal.Title>Purchase Tokens</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              You're purchasing {selectedToken?.amount} tokens, each valued at ${selectedToken?.price}.
+              You're purchasing {selectedToken?.amount} tokens, valued at ${selectedToken?.price}.
             </Modal.Body>
             <Modal.Footer>
 

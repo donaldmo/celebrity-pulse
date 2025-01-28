@@ -181,10 +181,10 @@ export const handlePayPal = async (invoice) => {
         });
 
         if (response.ok) {
-            const { approvalUrl, jwtToken } = await response.json();
+            const { approvalUrl } = await response.json();
             // window.location.href = approvalUrl;
 
-            return approvalUrl + `&tokenId=${jwtToken}`;
+            return approvalUrl;
         } else {
             const { error } = await response.json();
             console.error('Error creating order:', error);

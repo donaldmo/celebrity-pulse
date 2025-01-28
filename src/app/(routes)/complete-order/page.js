@@ -9,6 +9,8 @@ import NavigationContnet from '@/components/NavigationContent';
 
 export default function CompleteOrder() {
   const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const payerID = searchParams.get('PayerID');
 
   const [status, setStatus] = useState(
     "Processing your payment, don't close the page..."
@@ -18,13 +20,13 @@ export default function CompleteOrder() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const completeOrder = async () => {
-      const token = searchParams.get('token');
-      const payerID = searchParams.get('PayerID');
-      const tokenId = searchParams.get('tokenId');
+    const tokenId = localStorage.getItem("tokenId");
+    console.log('COMPLETE ORDER: ', token, payerID, tokenId)
 
-      if (!token || !payerID) {
-        setError('Missing token or PayerID.');
+    const completeOrder = async () => {
+
+      if (!token || !payerID || !tokenId) {
+        setError('Missing token or PayerID or tokenId.');
         setStatus('Payment could not be processed.');
         return;
       }
@@ -39,13 +41,12 @@ export default function CompleteOrder() {
         if (!response.ok) {
           const resultError = await response.json();
           console.log('Response Error: ', resultError.error)
-          // throw new Error(resultError.error);
           setError(resultError);
         }
 
-        const result = await response.text();
+        const result = await response.json();
         console.log('Results: ', result)
-        // setStatus(result);
+        setStatus(result.status)
       } catch (err) {
         setError(err.message);
       } finally {
@@ -54,7 +55,7 @@ export default function CompleteOrder() {
     };
 
     completeOrder();
-  }, [searchParams]);
+  }, []);
 
   return (
     <main id="songs-one">

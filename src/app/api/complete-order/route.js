@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongodb';
 import nodemailer from 'nodemailer';
 import { capturePayment } from '@/app/lib/paypal';
 import { NextResponse } from 'next/server';
@@ -17,6 +17,7 @@ export async function POST(req) {
             " ___________________________________________________\n"
         );
         const { token, payerID, tokenId } = await req.json();
+        console.table({ token, payerID, tokenId });
 
         await connectMongo();
 
@@ -44,39 +45,36 @@ export async function POST(req) {
             }, { status: 400 });
         }
 
-        const decodedData = jwt.verify(token, SECRET_KEY); // Verify the token
-        console.log("Decoded Data:", decodedData);
-
-        const _id = decodedData.tokenId;
-        const ticket = await Ticket.findById({ _id });
+        console.log('Fetching Ticket token: ', tokenId)
+        const ticket = await Ticket.findById({ _d: new ObjectId(tokenId) });
 
         if (!ticket) {
             return NextResponse.json({
                 error: "Token not found!"
             }, { status: 404 });
         }
+        console.log('Ticket token Found: ', ticket);
 
-        console.log('Ticket Found: ', ticket);
-
-        const order = await capturePayment(token); // Assuming `capturePayment` only needs the token
-        console.log('Order: ', order);
-
+        console.log('Fetching User: ')
         const fan = await Fans.findOne({ email: decodedData.email });
 
         if (!fan) {
             return NextResponse.json({
-                error: "User not found"
+                error: "User not found!"
             }, { status: 404 });
         }
+        console.log('User Found: ', fan)
 
-        console.log('Fan Found: ')
-        console.log(fan)
+        console.log('Capturing PayPal Payment:')
+        const order = await capturePayment(token); // Assuming `capturePayment` only needs the token
+        console.log('PayPal Payment: ', order);
 
         fan.purchases = [...fan.purchases, order];
         fan.tokens = Number(fan.tokens) + Number(ticket.amount);
 
-        await fan.save();
-        console.log("updated fan: ", fan._id);
+        console.log('Saving Users Purchase')
+        const updateFan = await fan.save();
+        console.log("updated fan: ", updateFan);
 
         let transporter = nodemailer.createTransport({
             host: 'mail.codegarden.co.za',
@@ -102,6 +100,7 @@ export async function POST(req) {
 
         return NextResponse.json({ status: 'success' }, { status: 200 });
     } catch (error) {
+        console.log(error)
         return new Response('Error: ' + error.message, { status: 500 });
     }
 }
