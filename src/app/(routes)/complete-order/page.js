@@ -2,90 +2,53 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import Navigation from '@/components/Navigation';
-import NavigationContnet from '@/components/NavigationContent';
 
 export default function CompleteOrder() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
-  const payerID = searchParams.get('PayerID');
+    const searchParams = useSearchParams();
+    const [status, setStatus] = useState('Processing your payment...');
+    const [error, setError] = useState(null);
 
-  const [status, setStatus] = useState(
-    "Processing your payment, don't close the page..."
-  );
+    useEffect(() => {
+        const completeOrder = async () => {
+            const token = searchParams.get('token');
+            const payerID = searchParams.get('PayerID');
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+            if (!token || !payerID) {
+                setError('Missing token or PayerID.');
+                setStatus('Payment could not be processed.');
+                return;
+            }
 
-  useEffect(() => {
-    const tokenId = localStorage.getItem("tokenId");
-    console.log('COMPLETE ORDER: ', token, payerID, tokenId)
+            try {
+                const response = await fetch('/api/complete-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, payerID }),
+                });
 
-    const completeOrder = async () => {
+                if (response.ok) {
+                    const result = await response.text(); // Assuming the API responds with a success message
+                    setStatus(result);
+                } else {
+                    const errorMessage = await response.text();
+                    setError(errorMessage);
+                    setStatus('Payment failed.');
+                }
+            } catch (err) {
+                setError(err.message);
+                setStatus('An unexpected error occurred.');
+            }
+        };
 
-      if (!token || !payerID || !tokenId) {
-        setError('Missing token or PayerID or tokenId.');
-        setStatus('Payment could not be processed.');
-        return;
-      }
+        completeOrder();
+    }, [searchParams]);
 
-      try {
-        const response = await fetch('/api/complete-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token, payerID, tokenId }),
-        });
-
-        if (!response.ok) {
-          const resultError = await response.json();
-          console.log('Response Error: ', resultError.error)
-          setError(resultError);
-        }
-
-        const result = await response.json();
-        console.log('Results: ', result)
-        setStatus(result.status)
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false)
-      }
-    };
-
-    completeOrder();
-  }, []);
-
-  return (
-    <main id="songs-one">
-      <div id="songs-one-content">
-        <Navigation />
-        <NavigationContnet />
-
-        <div className="heading">
-          <div className="text">COMPLETE ORDER</div>
+    return (
+        <div style={{ color: 'white' }}>
+            <h1>Complete Order</h1>
+            <p>{status}</p>
+            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+            <a href="/">Return to Home</a>
         </div>
-
-        <div className="center" style={{ color: "white" }}>
-          <p>{status}</p>
-        </div>
-
-        <div className="center" style={{ color: "white" }}>
-          {!loading && error && (
-            <p style={{ color: 'red' }}>Error: {error}</p>
-          )}
-        </div>
-
-        {!loading && (<div className="center">
-          <Link
-            href="/"
-            style={{ padding: '10px 20px', fontSize: '16px' }}
-          >
-            Return to Home
-          </Link>
-        </div>)}
-      </div>
-    </main>
-  );
+    );
 }

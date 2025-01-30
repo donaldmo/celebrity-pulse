@@ -1,20 +1,11 @@
-export class Invoice {
-    constructor(userEmail, productId, productItem, amount, currency = "ZAR") {
-        this.metadata = {
-            user_email: userEmail,
-            product_id: productId,
-            product_item: productItem,
-        };
-        this.amount = amount;
-        this.currency = currency;
-    }
+/**
+ * @typedef {Object} Invoice
+ * @property {Object} metadata - Metadata related to the invoice.
+ * @property {string} metadata.user_email - The user's email address.
+ * @property {string} metadata.product_id - The unique identifier for the product.
+ * @property {string} metadata.product_item - The type of product, e.g., "token".
+ * @property {number} amount - The invoice amount.
+ * @property {string} currency - The currency code, e.g., "ZAR".
+ */
 
-    // You can add methods if needed
-    printInvoice() {
-        console.log(`Invoice:
-      User Email: ${this.metadata.user_email}
-      Product ID: ${this.metadata.product_id}
-      Product Item: ${this.metadata.product_item}
-      Amount: ${this.amount} ${this.currency}`);
-    }
-}
+export { };

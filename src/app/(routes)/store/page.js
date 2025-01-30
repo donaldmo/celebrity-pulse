@@ -31,6 +31,18 @@ export default function Store() {
   const [selectedToken, setSelectedToken] = useState();
   const [fetching, setFetching] = useState(false)
 
+  useEffect(() => {
+    const authenticate = async () => {
+      if (status === 'authenticated') {
+        if (session) {
+          setUserData(session)
+        }
+      }
+    }
+
+    authenticate();
+  }, [status, session]);
+
   /**
    * Fetch Tickets | useEffect
    */
@@ -118,14 +130,14 @@ export default function Store() {
             product_item: "token"
           },
           amount: selectedToken.amount,
-          currency: "ZAR",
+          currency: "USD",
         };
 
         let redirectUrl = "";
 
         switch (paymentMethod) {
           case 'PAY_PAL': {
-            redirectUrl = await handlePayPal(invoice);
+            redirectUrl = await handlePayPal(invoice, userData.accessToken);
             break;
           }
 

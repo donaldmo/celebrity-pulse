@@ -170,13 +170,16 @@ export async function celebrityVote(session) {
     }
 }
 
-export const handlePayPal = async (invoice) => {
+export const handlePayPal = async (invoice, sessionToken) => {
     try {
         console.log('HANDLE PAY_PAL')
 
         const response = await fetch('/api/create-order', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionToken}`,
+            },
             body: JSON.stringify(invoice),
         });
 
