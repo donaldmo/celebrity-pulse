@@ -1,54 +1,45 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+async function completeOrder(token, payerID, productId) {
+    if (!token || !payerID) {
+        return { message: 'Missing payment information', error: true };
+    }
 
-export default function CompleteOrder() {
-    const searchParams = useSearchParams();
-    const [status, setStatus] = useState('Processing your payment...');
-    const [error, setError] = useState(null);
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/complete-order`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token, payerID, productId }),
+        });
 
-    useEffect(() => {
-        const completeOrder = async () => {
-            const token = searchParams.get('token');
-            const payerID = searchParams.get('PayerID');
+        if (response.ok) {
+            return { message: await response.text(), error: false };
+        } else {
+            return { message: await response.text(), error: true };
+        }
+    } catch {
+        return { message: 'An unexpected error occurred.', error: true };
+    }
+}
 
-            if (!token || !payerID) {
-                setError('Missing token or PayerID.');
-                setStatus('Payment could not be processed.');
-                return;
-            }
+export default async function CompleteOrderPage({ searchParams }) {
+    const { token, PayerID, productId } = searchParams;
 
-            try {
-                const response = await fetch('/api/complete-order', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token, payerID }),
-                });
+    if (!token || !PayerID) {
+        redirect('/');
+    }
 
-                if (response.ok) {
-                    const result = await response.text(); // Assuming the API responds with a success message
-                    setStatus(result);
-                } else {
-                    const errorMessage = await response.text();
-                    setError(errorMessage);
-                    setStatus('Payment failed.');
-                }
-            } catch (err) {
-                setError(err.message);
-                setStatus('An unexpected error occurred.');
-            }
-        };
-
-        completeOrder();
-    }, [searchParams]);
+    const { message, error } = await completeOrder(token, PayerID, productId);
 
     return (
-        <div style={{ color: 'white' }}>
+        <main>
             <h1>Complete Order</h1>
-            <p>{status}</p>
-            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-            <a href="/">Return to Home</a>
-        </div>
+            <p style={{ color: error ? 'red' : 'white' }}>{message}</p>
+            <a href="/" style={{ color: 'blue' }}>
+                Return to Home
+            </a>
+        </main>
     );
 }

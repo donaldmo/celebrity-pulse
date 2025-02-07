@@ -24,16 +24,7 @@ export default function CompleteOrder() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const { data: session, status } = useSession();
-
-  const [userData, setUserData] = useState({
-    user: {
-      name: 'Donald Motswiri',
-      email: 'rmotswiri023@student.wethinkcode.co.za',
-      image: 'https://lh3.googleusercontent.com/a/ACg8ocKdZtGDg8ivXA5KPU7xUaculepBjeYah4h3hgGFWuKAjpmnS6Y=s96-c',
-      id: '105342488709512522166'
-    },
-    accessToken: 'ya29.a0AXeO80Qrbf_r5cqrzRafni4uqstH2kqP8ol8zFX9OjtrMu0Js-FcoMwzBpX0HETT9MuYIE_znV8Mvr9cs4HLq6qrjXU59ufjCkh__I-yhSU1XEu8u_D4ykBaF99dUYZa0UJ7Jibm4iyD9jf3K93nuuW8BgC4DR8FJfoaCgYKAZgSARISFQHGX2MigoyYLZCMmD9Ra246_WqB5A0170'
-  });
+  const [userData, setUserData] = useState()
   
   // useEffect(() => {
   //   const authenticate = async () => {

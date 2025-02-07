@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import NavigationContnet from '@/components/NavigationContent';
 import Loader from '@/components/Loader';
-import Cursor from '@/components/Cursor';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -46,7 +45,7 @@ function Contests() {
 
     return (
         <main id="songs-two">
-            <Cursor />
+            {/* <Cursor /> */}
 
             <div id="songs-two-content">
                 <Navigation />

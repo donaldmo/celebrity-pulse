@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
+
 import { useSession, signIn, signOut } from 'next-auth/react';
-import Cursor from '@/components/Cursor';
 import Navigation from '@/components/Navigation';
 import NavigationContnet from '@/components/NavigationContent';
 
@@ -222,6 +223,7 @@ export default function Store() {
                             setShow(true);
                           }}
                         >
+                          <Image src="/download.svg" alt="Paypla Icon" width={20} height={20} />
                           Buy
                         </button>
                       </div>
