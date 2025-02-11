@@ -180,7 +180,7 @@ export const handlePayPal = async (invoice, sessionToken) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${sessionToken}`,
             },
-            body: JSON.stringify(invoice),
+            body: JSON.stringify({ invoice }),
         });
 
         if (response.ok) {

@@ -18,24 +18,52 @@ async function generateAccessToken() {
     return response.data.access_token;
 }
 
-// export async function createOrder(data) {
-//     const accessToken = await generateAccessToken();
-
-//     const response = await axios({
-//         url: `${PAYPAL_BASE_URL}/v2/checkout/orders`,
-//         method: 'post',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             Authorization: `Bearer ${accessToken}`,
-//         },
-//         data: JSON.stringify(data),
-//     });
-
-//     return response.data.links.find((link) => link.rel === 'approve').href;
-// }
-
-export async function createOrder() {
+export async function createOrder(invoice) {
     const accessToken = await generateAccessToken();
+    console.log('invoice: ', invoice)
+    
+    const {
+        currency,
+        price,
+        amount,
+        metadata: { user_email, product_id, product_item } = {}
+    } = invoice || {};
+
+    const data = {
+        intent: 'CAPTURE',
+        purchase_units: [
+            {
+                items: [
+                    {
+                        name: `Tokens_${product_id}`,
+                        description: 'celebritypulse.asia tokens to vote for your favorite celebrity in the contest.',
+                        quantity: 1,
+                        unit_amount: {
+                            currency_code: 'USD',
+                            value: `${price}`,
+                        },
+                    },
+                ],
+                amount: {
+                    currency_code: 'USD',
+                    value: `${price}`,
+                    breakdown: {
+                        item_total: {
+                            currency_code: 'USD',
+                            value: `${price}`,
+                        },
+                    },
+                },
+            },
+        ],
+        application_context: {
+            return_url: `${process.env.BASE_URL}/complete-order`,
+            cancel_url: `${process.env.BASE_URL}/cancel-order`,
+            shipping_preference: 'NO_SHIPPING',
+            user_action: 'PAY_NOW',
+            brand_name: 'manfra.io',
+        },
+    }
 
     const response = await axios({
         url: `${PAYPAL_BASE_URL}/v2/checkout/orders`,
@@ -44,41 +72,7 @@ export async function createOrder() {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
         },
-        data: JSON.stringify({
-            intent: 'CAPTURE',
-            purchase_units: [
-                {
-                    items: [
-                        {
-                            name: 'Node.js Complete Course',
-                            description: 'Node.js Complete Course with Express and MongoDB',
-                            quantity: 1,
-                            unit_amount: {
-                                currency_code: 'USD',
-                                value: '1.00',
-                            },
-                        },
-                    ],
-                    amount: {
-                        currency_code: 'USD',
-                        value: '1.00',
-                        breakdown: {
-                            item_total: {
-                                currency_code: 'USD',
-                                value: '1.00',
-                            },
-                        },
-                    },
-                },
-            ],
-            application_context: {
-                return_url: `${process.env.BASE_URL}/complete-order`,
-                cancel_url: `${process.env.BASE_URL}/cancel-order`,
-                shipping_preference: 'NO_SHIPPING',
-                user_action: 'PAY_NOW',
-                brand_name: 'manfra.io',
-            },
-        }),
+        data: JSON.stringify(data),
     });
 
     return response.data.links.find((link) => link.rel === 'approve').href;

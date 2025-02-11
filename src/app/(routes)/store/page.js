@@ -119,7 +119,7 @@ export default function Store() {
 
     try {
       if (status === 'unauthenticated') {
-        const callbackUrl = `/store/purchase?ticketId=${selectedToken._id}`;
+        const callbackUrl = window.location.href;
         return signIn('google', { callbackUrl });
       }
 
@@ -131,10 +131,12 @@ export default function Store() {
             product_item: "token"
           },
           amount: selectedToken.amount,
+          price: selectedToken.price,
           currency: "USD",
         };
 
         let redirectUrl = "";
+        console.log('INVOICE: ', invoice);
 
         switch (paymentMethod) {
           case 'PAY_PAL': {
@@ -223,7 +225,6 @@ export default function Store() {
                             setShow(true);
                           }}
                         >
-                          <Image src="/download.svg" alt="Paypla Icon" width={20} height={20} />
                           Buy
                         </button>
                       </div>
@@ -246,12 +247,16 @@ export default function Store() {
               {fetching && <Loader />}
 
               {!fetching && (<>
-                <Button variant="secondary" onClick={() => handleBuy('PAY_PAL')}>
-                  Buy with Paypal
+                <Button variant="primary" onClick={() => handleBuy('PAY_PAL')}
+                  style={{ fontWeight: '600' }}
+                >
+                  Buy <img src="/download.svg" alt="Paypla Icon" width={68} height="auto" />
                 </Button>
 
-                <Button variant="primary" onClick={() => handleBuy('DEBIT_CARD')}>
-                  Buy with Debit Card
+                <Button variant="primary" onClick={() => handleBuy('DEBIT_CARD')}
+                  style={{ fontWeight: '600' }}
+                >
+                  Buy Debit Card<img src="/atm-card.png" alt="Card Icon" width={21} height="auto" />
                 </Button>
               </>)}
             </Modal.Footer>
